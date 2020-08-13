@@ -113,7 +113,11 @@
 			// 
 			this.SourceExtensionComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.SourceExtensionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.SourceExtensionComboBox.FormattingEnabled = true;
+			this.SourceExtensionComboBox.Items.AddRange(new object[] {
+            ".jpg .jpeg",
+            ".png"});
 			this.SourceExtensionComboBox.Location = new System.Drawing.Point(12, 29);
 			this.SourceExtensionComboBox.Name = "SourceExtensionComboBox";
 			this.SourceExtensionComboBox.Size = new System.Drawing.Size(206, 21);
@@ -123,7 +127,11 @@
 			// 
 			this.TargetExtensionComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.TargetExtensionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.TargetExtensionComboBox.FormattingEnabled = true;
+			this.TargetExtensionComboBox.Items.AddRange(new object[] {
+            ".jpg .jpeg",
+            ".png"});
 			this.TargetExtensionComboBox.Location = new System.Drawing.Point(12, 69);
 			this.TargetExtensionComboBox.Name = "TargetExtensionComboBox";
 			this.TargetExtensionComboBox.Size = new System.Drawing.Size(206, 21);
