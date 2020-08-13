@@ -71,10 +71,12 @@
 			// 
 			this.RootDirectoryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.RootDirectoryTextBox.Enabled = false;
 			this.RootDirectoryTextBox.Location = new System.Drawing.Point(12, 127);
 			this.RootDirectoryTextBox.Name = "RootDirectoryTextBox";
 			this.RootDirectoryTextBox.Size = new System.Drawing.Size(206, 20);
 			this.RootDirectoryTextBox.TabIndex = 5;
+			this.RootDirectoryTextBox.Text = "Click to select the directory...";
 			// 
 			// ProgressBar
 			// 
@@ -89,6 +91,7 @@
 			// 
 			this.StartConversionButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.StartConversionButton.Enabled = false;
 			this.StartConversionButton.Location = new System.Drawing.Point(12, 223);
 			this.StartConversionButton.Name = "StartConversionButton";
 			this.StartConversionButton.Size = new System.Drawing.Size(206, 23);
