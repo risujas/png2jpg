@@ -16,5 +16,12 @@ namespace png2jpg
 		{
 			InitializeComponent();
 		}
+
+		bool ReadyToConvert()
+		{
+
+
+			return true;
+		}
 	}
 }
