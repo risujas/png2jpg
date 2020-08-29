@@ -11,7 +11,13 @@ namespace png2jpg
 		public MainForm()
 		{
 			InitializeComponent();
+
 			LoadOptions();
+
+			TargetDirectoryButton.Enabled = CopyFilesCheckBox.Checked;
+			TargetDirectoryTextBox.Enabled = CopyFilesCheckBox.Checked;
+
+			ValidateOptions();
 		}
 
 		// vars /////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +165,7 @@ namespace png2jpg
 			ValidateOptions();
 		}
 
-		private void ChooseDirectoryButton_Click(object sender, EventArgs e)
+		private void SourceDirectoryButton_Click(object sender, EventArgs e)
 		{
 			DialogResult result = folderBrowserDialog1.ShowDialog();
 			if (result == DialogResult.OK)
@@ -188,6 +194,30 @@ namespace png2jpg
 		private void StartConversionButton_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show(FindAffectedFiles().Count.ToString());
+		}
+
+		private void CopyFilesCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			TargetDirectoryButton.Enabled = CopyFilesCheckBox.Checked;
+			TargetDirectoryTextBox.Enabled = CopyFilesCheckBox.Checked;
+
+			ValidateOptions();
+		}
+
+		private void TargetDirectoryButton_Click(object sender, EventArgs e)
+		{
+			DialogResult result = folderBrowserDialog1.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				TargetDirectoryTextBox.Text = folderBrowserDialog1.SelectedPath;
+			}
+
+			ValidateOptions();
+		}
+
+		private void TargetDirectoryTextBox_TextChanged(object sender, EventArgs e)
+		{
+			ValidateOptions();
 		}
 	}
 }
