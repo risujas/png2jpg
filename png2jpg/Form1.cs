@@ -19,6 +19,7 @@ namespace png2jpg
 
 		// vars /////////////////////////////////////////////////////////////////////////////////////
 
+		Logger logger = new Logger("log.txt");
 		private const string OldOptionsFile = "options.txt";
 		private const char OptionsDelimiter = '=';
 		private const string RootDirectoryOption = "root_directory";
@@ -35,6 +36,8 @@ namespace png2jpg
 		{
 			if (File.Exists(OldOptionsFile))
 			{
+				//logger.Write("Loading options from file");
+
 				string[] lines = File.ReadAllLines(OldOptionsFile);
 
 				foreach (var l in lines)
@@ -90,6 +93,8 @@ namespace png2jpg
 
 		bool WriteOptions()
 		{
+			//logger.Write("Writing options to file");
+
 			if (File.Exists(OldOptionsFile))
 			{
 				File.Delete(OldOptionsFile);
@@ -111,41 +116,49 @@ namespace png2jpg
 
 		bool ValidateOptions()
 		{
-			WriteOptions();
-
-			ConfirmConversionButton.Enabled = false;
+			bool good = true;
 
 			if (SourceExtensionComboBox.SelectedIndex == -1)
 			{
-				return false;
+				good = false;
 			}
 
 			if (TargetExtensionComboBox.SelectedIndex == -1)
 			{
-				return false;
+				good = false;
 			}
 
 			if (SourceExtensionComboBox.SelectedIndex == TargetExtensionComboBox.SelectedIndex)
 			{
-				return false;
+				good = false;
 			}
 
 			if (!Directory.Exists(RootDirectoryTextBox.Text))
 			{
-				return false;
+				good = false;
 			}
 
 			if (CopyFilesCheckBox.Checked)
 			{
 				if (!Directory.Exists(TargetDirectoryTextBox.Text))
 				{
-					return false;
+					good = false;
 				}
 			}
 
-			ConfirmConversionButton.Enabled = true;
+			ConfirmConversionButton.Enabled = good;
+			/*
+			if (good)
+			{
+				logger.Write("Valid options, confirmation button enabled");
+			}
+			else
+			{
+				logger.Write("Invalid options, confirmation button disabled");
+			}
+			*/
 
-			return true;
+			return good;
 		}
 
 		List<string> FindAffectedFiles()
@@ -167,7 +180,7 @@ namespace png2jpg
 				}
 				catch (System.UnauthorizedAccessException e)
 				{
-					// TODO LOG
+					logger.Write(e.Message);
 				}
 			}
 
@@ -243,6 +256,7 @@ namespace png2jpg
 
 		private void StartConversionButton_Click(object sender, EventArgs e)
 		{
+			WriteOptions();
 			MessageBox.Show(FindAffectedFiles().Count.ToString());
 		}
 	}
