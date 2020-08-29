@@ -43,7 +43,7 @@ namespace png2jpg
 
 		private DateTime startTime = new DateTime();
 		private bool processingFiles = false;
-		private const int MaxProcessLimit = 2;
+		private int maxProcessLimit = 1;
 		private List<Process> spawnedProcesses = new List<Process>();
 		private List<string> AffectedFilesList = new List<string>();
 		private int currentFileIndex = 0;
@@ -508,7 +508,7 @@ namespace png2jpg
 		{
 			if (processingFiles)
 			{
-				if (currentFileIndex < maximumFileIndex && CountCurrentProcesses() < MaxProcessLimit)
+				if (currentFileIndex < maximumFileIndex && CountCurrentProcesses() < maxProcessLimit)
 				{
 					StartNextProcess();
 				}
