@@ -252,9 +252,38 @@ namespace png2jpg
 			if (finishedItems == 0) { finishedItems = 1; }
 
 			double elapsedTimePerItem = elapsedTime.TotalSeconds / finishedItems;
-			double remainingTime = (maximumFileIndex - CountFinishedProcesses() - CountCurrentProcesses()) * elapsedTimePerItem;
+			double remainingTime = (maximumFileIndex - CountFinishedProcesses()) * elapsedTimePerItem;
 
 			return (int)remainingTime;
+		}
+
+		string GetEstimatedFinishTime()
+		{
+			TimeSpan elapsedTime = DateTime.Now.Subtract(startTime);
+
+			int finishedItems = CountFinishedProcesses();
+			if (finishedItems == 0) { finishedItems = 1; }
+
+			double elapsedTimePerItem = elapsedTime.TotalSeconds / finishedItems;
+			double remainingTime = (maximumFileIndex - CountFinishedProcesses()) * elapsedTimePerItem;
+
+			DateTime finishTime = DateTime.Now;
+			finishTime = finishTime.AddSeconds(remainingTime);
+
+			string s = "";
+
+			if (finishTime.TimeOfDay.Hours < 10) { s += "0"; }
+			s += finishTime.TimeOfDay.Hours;
+			s += ":";
+
+			if (finishTime.TimeOfDay.Minutes < 10) { s += "0"; }
+			s += finishTime.TimeOfDay.Minutes;
+			s += ":";
+
+			if (finishTime.TimeOfDay.Seconds < 10) { s += "0"; }
+			s += finishTime.TimeOfDay.Seconds;
+
+			return s;
 		}
 
 		void SetInfoLabel(string s)
@@ -308,13 +337,13 @@ namespace png2jpg
 			psi.WindowStyle = ProcessWindowStyle.Hidden;
 			spawnedProcesses.Add(Process.Start(psi));
 
-			if (currentFileIndex >= maximumFileIndex / 10)
+			if (currentFileIndex >= maximumFileIndex * 0.15)
 			{
-				SetInfoLabel("ETA: " + GetEstimatedTimeLeft() + "s - " + AffectedFilesList[currentFileIndex]);
+				SetInfoLabel("ETA: " + GetEstimatedFinishTime() + " (" + GetEstimatedTimeLeft() + "s) - " + currentFileIndex.ToString() + "/" + maximumFileIndex.ToString());
 			}
 			else
 			{
-				SetInfoLabel("ETA: calculating - " + AffectedFilesList[currentFileIndex]);
+				SetInfoLabel("ETA: calculating - " + currentFileIndex.ToString() + "/" + maximumFileIndex.ToString());
 			}
 
 			logger.Write(psi.FileName + " " + psi.Arguments);
