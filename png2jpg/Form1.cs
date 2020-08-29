@@ -7,14 +7,13 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace png2jpg
 {
 	public partial class MainForm : Form
 	{
-		public bool HasProperDirectorySelected { get; private set; }
-
 		public MainForm()
 		{
 			InitializeComponent();
@@ -39,7 +38,12 @@ namespace png2jpg
 				return false;
 			}
 
-			if (!HasProperDirectorySelected)
+			if (RootDirectoryTextBox.Text == "")
+			{
+				return false;
+			}
+
+			if (!Directory.Exists(RootDirectoryTextBox.Text))
 			{
 				return false;
 			}
@@ -62,6 +66,22 @@ namespace png2jpg
 		private void StartConversionButton_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		private void ChooseDirectoryButton_Click(object sender, EventArgs e)
+		{
+			DialogResult result = folderBrowserDialog1.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				RootDirectoryTextBox.Text = folderBrowserDialog1.SelectedPath;
+			}
+
+			ValidateOptions();
+		}
+
+		private void RootDirectoryTextBox_TextChanged(object sender, EventArgs e)
+		{
+			ValidateOptions();
 		}
 	}
 }

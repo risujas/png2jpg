@@ -30,7 +30,6 @@
 		{
 			this.SourceExtensionLabel = new System.Windows.Forms.Label();
 			this.TargetExtensionLabel = new System.Windows.Forms.Label();
-			this.RootDirectoryLabel = new System.Windows.Forms.Label();
 			this.RootDirectoryTextBox = new System.Windows.Forms.TextBox();
 			this.ProgressBar = new System.Windows.Forms.ProgressBar();
 			this.ConfirmConversionButton = new System.Windows.Forms.Button();
@@ -38,6 +37,8 @@
 			this.SourceExtensionComboBox = new System.Windows.Forms.ComboBox();
 			this.TargetExtensionComboBox = new System.Windows.Forms.ComboBox();
 			this.RemoveOriginalFilesCheckBox = new System.Windows.Forms.CheckBox();
+			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+			this.ChooseDirectoryButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// SourceExtensionLabel
@@ -58,25 +59,15 @@
 			this.TargetExtensionLabel.TabIndex = 2;
 			this.TargetExtensionLabel.Text = "Target extension";
 			// 
-			// RootDirectoryLabel
-			// 
-			this.RootDirectoryLabel.AutoSize = true;
-			this.RootDirectoryLabel.Location = new System.Drawing.Point(9, 111);
-			this.RootDirectoryLabel.Name = "RootDirectoryLabel";
-			this.RootDirectoryLabel.Size = new System.Drawing.Size(76, 13);
-			this.RootDirectoryLabel.TabIndex = 4;
-			this.RootDirectoryLabel.Text = " Root directory";
-			// 
 			// RootDirectoryTextBox
 			// 
 			this.RootDirectoryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.RootDirectoryTextBox.Enabled = false;
-			this.RootDirectoryTextBox.Location = new System.Drawing.Point(12, 127);
+			this.RootDirectoryTextBox.Location = new System.Drawing.Point(122, 126);
 			this.RootDirectoryTextBox.Name = "RootDirectoryTextBox";
-			this.RootDirectoryTextBox.Size = new System.Drawing.Size(206, 20);
+			this.RootDirectoryTextBox.Size = new System.Drawing.Size(177, 20);
 			this.RootDirectoryTextBox.TabIndex = 5;
-			this.RootDirectoryTextBox.Text = "Click to select the directory...";
+			this.RootDirectoryTextBox.TextChanged += new System.EventHandler(this.RootDirectoryTextBox_TextChanged);
 			// 
 			// ProgressBar
 			// 
@@ -84,7 +75,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.ProgressBar.Location = new System.Drawing.Point(12, 252);
 			this.ProgressBar.Name = "ProgressBar";
-			this.ProgressBar.Size = new System.Drawing.Size(206, 23);
+			this.ProgressBar.Size = new System.Drawing.Size(291, 23);
 			this.ProgressBar.TabIndex = 6;
 			// 
 			// ConfirmConversionButton
@@ -94,7 +85,7 @@
 			this.ConfirmConversionButton.Enabled = false;
 			this.ConfirmConversionButton.Location = new System.Drawing.Point(12, 223);
 			this.ConfirmConversionButton.Name = "ConfirmConversionButton";
-			this.ConfirmConversionButton.Size = new System.Drawing.Size(206, 23);
+			this.ConfirmConversionButton.Size = new System.Drawing.Size(291, 23);
 			this.ConfirmConversionButton.TabIndex = 7;
 			this.ConfirmConversionButton.Text = "Confirm conversion";
 			this.ConfirmConversionButton.UseVisualStyleBackColor = true;
@@ -122,7 +113,7 @@
             ".bmp"});
 			this.SourceExtensionComboBox.Location = new System.Drawing.Point(12, 29);
 			this.SourceExtensionComboBox.Name = "SourceExtensionComboBox";
-			this.SourceExtensionComboBox.Size = new System.Drawing.Size(206, 21);
+			this.SourceExtensionComboBox.Size = new System.Drawing.Size(291, 21);
 			this.SourceExtensionComboBox.TabIndex = 9;
 			this.SourceExtensionComboBox.SelectedIndexChanged += new System.EventHandler(this.SourceExtensionComboBox_SelectedIndexChanged);
 			// 
@@ -138,7 +129,7 @@
             ".bmp"});
 			this.TargetExtensionComboBox.Location = new System.Drawing.Point(12, 69);
 			this.TargetExtensionComboBox.Name = "TargetExtensionComboBox";
-			this.TargetExtensionComboBox.Size = new System.Drawing.Size(206, 21);
+			this.TargetExtensionComboBox.Size = new System.Drawing.Size(291, 21);
 			this.TargetExtensionComboBox.TabIndex = 10;
 			this.TargetExtensionComboBox.SelectedIndexChanged += new System.EventHandler(this.TargetExtensionComboBox_SelectedIndexChanged);
 			// 
@@ -154,11 +145,26 @@
 			this.RemoveOriginalFilesCheckBox.Text = "Remove original files after conversion";
 			this.RemoveOriginalFilesCheckBox.UseVisualStyleBackColor = true;
 			// 
+			// folderBrowserDialog1
+			// 
+			this.folderBrowserDialog1.ShowNewFolderButton = false;
+			// 
+			// ChooseDirectoryButton
+			// 
+			this.ChooseDirectoryButton.Location = new System.Drawing.Point(12, 124);
+			this.ChooseDirectoryButton.Name = "ChooseDirectoryButton";
+			this.ChooseDirectoryButton.Size = new System.Drawing.Size(104, 23);
+			this.ChooseDirectoryButton.TabIndex = 12;
+			this.ChooseDirectoryButton.Text = "Choose directory";
+			this.ChooseDirectoryButton.UseVisualStyleBackColor = true;
+			this.ChooseDirectoryButton.Click += new System.EventHandler(this.ChooseDirectoryButton_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(230, 287);
+			this.ClientSize = new System.Drawing.Size(315, 287);
+			this.Controls.Add(this.ChooseDirectoryButton);
 			this.Controls.Add(this.RemoveOriginalFilesCheckBox);
 			this.Controls.Add(this.TargetExtensionComboBox);
 			this.Controls.Add(this.SourceExtensionComboBox);
@@ -166,7 +172,6 @@
 			this.Controls.Add(this.ConfirmConversionButton);
 			this.Controls.Add(this.ProgressBar);
 			this.Controls.Add(this.RootDirectoryTextBox);
-			this.Controls.Add(this.RootDirectoryLabel);
 			this.Controls.Add(this.TargetExtensionLabel);
 			this.Controls.Add(this.SourceExtensionLabel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -181,7 +186,6 @@
 
 		private System.Windows.Forms.Label SourceExtensionLabel;
 		private System.Windows.Forms.Label TargetExtensionLabel;
-		private System.Windows.Forms.Label RootDirectoryLabel;
 		private System.Windows.Forms.TextBox RootDirectoryTextBox;
 		private System.Windows.Forms.ProgressBar ProgressBar;
 		private System.Windows.Forms.Button ConfirmConversionButton;
@@ -189,6 +193,8 @@
 		private System.Windows.Forms.ComboBox SourceExtensionComboBox;
 		private System.Windows.Forms.ComboBox TargetExtensionComboBox;
 		private System.Windows.Forms.CheckBox RemoveOriginalFilesCheckBox;
+		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+		private System.Windows.Forms.Button ChooseDirectoryButton;
 	}
 }
 
