@@ -33,12 +33,22 @@ namespace png2jpg
 
 				foreach (var l in lines)
 				{
-					if (l.StartsWith("directory" + OptionsDelimiter))
+					string[] parts = l.Split(OptionsDelimiter);
+					if (parts.Length > 1)
 					{
-						string[] parts = l.Split(OptionsDelimiter);
-						if (parts.Length > 1)
+						if (l.StartsWith("directory"))
 						{
 							RootDirectoryTextBox.Text = parts[1];
+						}
+
+						if (l.StartsWith("source"))
+						{
+							SourceExtensionComboBox.SelectedItem = parts[1];
+						}
+
+						if (l.StartsWith("target"))
+						{
+							TargetExtensionComboBox.SelectedItem = parts[1];
 						}
 					}
 				}
@@ -59,6 +69,9 @@ namespace png2jpg
 
 			List<string> lines = new List<string>();
 			lines.Add("directory" + OptionsDelimiter + RootDirectoryTextBox.Text);
+			lines.Add("source" + OptionsDelimiter + SourceExtensionComboBox.SelectedItem);
+			lines.Add("target" + OptionsDelimiter + TargetExtensionComboBox.SelectedItem);
+
 
 			File.WriteAllLines(OldOptionsFile, lines);
 
