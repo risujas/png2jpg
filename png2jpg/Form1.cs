@@ -41,6 +41,7 @@ namespace png2jpg
 		private const string CopyFilesOption = "copy_files";
 		private const string TargetDirectoryOption = "target_directory";
 
+		private const int MaxProcessLimit = 4;
 		private List<Process> spawnedProcesses = new List<Process>();
 		private bool processingFiles = false;
 		private List<string> AffectedFilesList = new List<string>();
@@ -216,6 +217,19 @@ namespace png2jpg
 			ConfirmConversionButton.Enabled = state;
 		}
 
+		int CountCurrentProcesses()
+		{
+			int current = 0;
+			foreach (var sp in spawnedProcesses)
+			{
+				if (!sp.HasExited)
+				{
+					current++;
+				}
+			}
+			return current;
+		}
+
 		int CountFinishedProcesses()
 		{
 			int finished = 0;
@@ -227,6 +241,78 @@ namespace png2jpg
 				}
 			}
 			return finished;
+		}
+
+		void InitiateConversion(List<string> files)
+		{
+			AffectedFilesList = files;
+			spawnedProcesses.Clear();
+
+			currentFileIndex = 0;
+			maximumFileIndex = AffectedFilesList.Count;
+			processingFiles = true;
+
+			ProgressBar.Value = 0;
+			ProgressBar.Maximum = maximumFileIndex;
+
+			SetGroupBoxStates(false);
+		}
+
+		void StartNextProcess()
+		{
+			string filePathWithoutExtension = AffectedFilesList[currentFileIndex];
+
+			if (!filePathWithoutExtension.Contains('.'))
+			{
+				return;
+			}
+
+			while (filePathWithoutExtension.Last() != '.')
+			{
+				filePathWithoutExtension = filePathWithoutExtension.Remove(filePathWithoutExtension.Count() - 1, 1);
+			}
+			filePathWithoutExtension = filePathWithoutExtension.Remove(filePathWithoutExtension.Count() - 1, 1);
+
+			string[] possibleExtensions = TargetExtensionComboBox.SelectedItem.ToString().Split(' ');
+			string newFilePath = filePathWithoutExtension + possibleExtensions[0];
+
+			if (CopyFilesCheckBox.Checked)
+			{
+				newFilePath = newFilePath.Replace(RootDirectoryTextBox.Text, TargetDirectoryTextBox.Text);
+			}
+
+			ProcessStartInfo psi = new ProcessStartInfo();
+			psi.FileName = Environment.CurrentDirectory + @"/ffmpeg/bin/ffmpeg.exe";
+			psi.Arguments = "-y -i \"" + AffectedFilesList[currentFileIndex] + "\" \"" + newFilePath + "\"";
+			psi.WindowStyle = ProcessWindowStyle.Hidden;
+			spawnedProcesses.Add(Process.Start(psi));
+
+			logger.Write(psi.FileName + " " + psi.Arguments);
+
+			currentFileIndex++;
+		}
+
+		void CleanUp()
+		{
+			if (RemoveOriginalFilesCheckBox.Checked)
+			{
+				foreach (var af in AffectedFilesList)
+				{
+					File.Delete(af);
+				}
+			}
+
+			ProgressBar.Value = maximumFileIndex;
+			ProgressBar.Maximum = maximumFileIndex;
+
+			AffectedFilesList.Clear();
+			spawnedProcesses.Clear();
+
+			currentFileIndex = 0;
+			maximumFileIndex = 0;
+			processingFiles = false;
+
+			SetGroupBoxStates(true);
 		}
 
 		// form events /////////////////////////////////////////////////////////////////////////////////////
@@ -336,10 +422,7 @@ namespace png2jpg
 				var result = MessageBox.Show(message, "Confirm conversion", MessageBoxButtons.OKCancel);
 				if (result == DialogResult.OK)
 				{
-					AffectedFilesList = affectedFiles;
-					currentFileIndex = 0;
-					maximumFileIndex = AffectedFilesList.Count;
-					processingFiles = true;
+					InitiateConversion(affectedFiles);
 				}
 			}
 		}
@@ -348,57 +431,19 @@ namespace png2jpg
 		{
 			if (processingFiles)
 			{
-				if (currentFileIndex < maximumFileIndex)
+				if (currentFileIndex < maximumFileIndex && CountCurrentProcesses() < MaxProcessLimit)
 				{
-					SetGroupBoxStates(false);
-
-					string filePathWithoutExtension = AffectedFilesList[currentFileIndex];
-
-					if (!filePathWithoutExtension.Contains('.'))
-					{
-						return;
-					}
-
-					while (filePathWithoutExtension.Last() != '.')
-					{
-						filePathWithoutExtension = filePathWithoutExtension.Remove(filePathWithoutExtension.Count() - 1, 1);
-					}
-					filePathWithoutExtension = filePathWithoutExtension.Remove(filePathWithoutExtension.Count() - 1, 1);
-
-					string[] possibleExtensions = TargetExtensionComboBox.SelectedItem.ToString().Split(' ');
-					string newFilePath = filePathWithoutExtension + possibleExtensions[0];
-
-					if (CopyFilesCheckBox.Checked)
-					{
-						newFilePath = newFilePath.Replace(RootDirectoryTextBox.Text, TargetDirectoryTextBox.Text);
-					}
-
-					ProcessStartInfo psi = new ProcessStartInfo();
-					psi.FileName = Environment.CurrentDirectory + @"/ffmpeg/bin/ffmpeg.exe";
-					psi.Arguments = "-y -i \"" + AffectedFilesList[currentFileIndex] + "\" \"" + newFilePath + "\"";
-					spawnedProcesses.Add(Process.Start(psi));
-
-					logger.Write(psi.FileName + " " + psi.Arguments);
-
-					currentFileIndex++;
+					StartNextProcess();
 				}
 
 				if (CountFinishedProcesses() == maximumFileIndex)
 				{
-					AffectedFilesList.Clear();
-					currentFileIndex = 0;
-					processingFiles = false;
-					spawnedProcesses.Clear();
-
-					ProgressBar.Value = maximumFileIndex;
-
-					SetGroupBoxStates(true);
+					CleanUp();
 				}
 
 				else
 				{
 					ProgressBar.Value = CountFinishedProcesses();
-					ProgressBar.Maximum = maximumFileIndex;
 				}
 			}
 		}

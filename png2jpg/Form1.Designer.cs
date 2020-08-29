@@ -158,10 +158,6 @@
 			this.RemoveOriginalFilesCheckBox.UseVisualStyleBackColor = true;
 			this.RemoveOriginalFilesCheckBox.CheckedChanged += new System.EventHandler(this.RemoveOriginalFilesCheckBox_CheckedChanged);
 			// 
-			// folderBrowserDialog1
-			// 
-			this.folderBrowserDialog1.ShowNewFolderButton = false;
-			// 
 			// SourceDirectoryButton
 			// 
 			this.SourceDirectoryButton.Location = new System.Drawing.Point(6, 19);
