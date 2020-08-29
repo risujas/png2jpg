@@ -13,10 +13,7 @@ namespace png2jpg
 			InitializeComponent();
 
 			LoadOptions();
-
-			TargetDirectoryButton.Enabled = CopyFilesCheckBox.Checked;
-			TargetDirectoryTextBox.Enabled = CopyFilesCheckBox.Checked;
-
+			SetDestinationGroupBoxState();
 			ValidateOptions();
 		}
 
@@ -119,14 +116,17 @@ namespace png2jpg
 				return false;
 			}
 
-			if (RootDirectoryTextBox.Text == "")
+			if (!Directory.Exists(RootDirectoryTextBox.Text))
 			{
 				return false;
 			}
 
-			if (!Directory.Exists(RootDirectoryTextBox.Text))
+			if (CopyFilesCheckBox.Checked)
 			{
-				return false;
+				if (!Directory.Exists(TargetDirectoryTextBox.Text))
+				{
+					return false;
+				}
 			}
 
 			ConfirmConversionButton.Enabled = true;
@@ -151,6 +151,12 @@ namespace png2jpg
 			}
 
 			return affectedFiles;
+		}
+
+		void SetDestinationGroupBoxState()
+		{
+			TargetDirectoryButton.Enabled = CopyFilesCheckBox.Checked;
+			TargetDirectoryTextBox.Enabled = CopyFilesCheckBox.Checked;
 		}
 
 		// form events /////////////////////////////////////////////////////////////////////////////////////
@@ -191,15 +197,9 @@ namespace png2jpg
 			ValidateOptions();
 		}
 
-		private void StartConversionButton_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show(FindAffectedFiles().Count.ToString());
-		}
-
 		private void CopyFilesCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			TargetDirectoryButton.Enabled = CopyFilesCheckBox.Checked;
-			TargetDirectoryTextBox.Enabled = CopyFilesCheckBox.Checked;
+			SetDestinationGroupBoxState();
 
 			ValidateOptions();
 		}
@@ -218,6 +218,11 @@ namespace png2jpg
 		private void TargetDirectoryTextBox_TextChanged(object sender, EventArgs e)
 		{
 			ValidateOptions();
+		}
+
+		private void StartConversionButton_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show(FindAffectedFiles().Count.ToString());
 		}
 	}
 }
