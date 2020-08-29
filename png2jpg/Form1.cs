@@ -9,14 +9,56 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace png2jpg
 {
 	public partial class MainForm : Form
 	{
+		private const string OldOptionsFile = "options.txt";
+
 		public MainForm()
 		{
 			InitializeComponent();
+
+			LoadOptions();
+		}
+
+		bool LoadOptions()
+		{
+			if (File.Exists(OldOptionsFile))
+			{
+				string[] lines = File.ReadAllLines(OldOptionsFile);
+
+				foreach (var l in lines)
+				{
+					if (l.StartsWith("directory:"))
+					{
+						string[] parts = l.Split(':');
+						if (parts.Length > 1)
+						{
+							RootDirectoryTextBox.Text = parts[1];
+						}
+					}
+				}
+
+				return true;
+
+			}
+
+			return false;
+		}
+
+		bool WriteOptions()
+		{
+			if (File.Exists(OldOptionsFile))
+			{
+				File.Delete(OldOptionsFile);
+			}
+
+			// TODO
+
+			return true;
 		}
 
 		bool ValidateOptions()
