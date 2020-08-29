@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace png2jpg
 {
 	public partial class MainForm : Form
 	{
+		public MainForm()
+		{
+			InitializeComponent();
+			LoadOptions();
+		}
+
+		// vars /////////////////////////////////////////////////////////////////////////////////////
+
 		private const string OldOptionsFile = "options.txt";
 		private const char OptionsDelimiter = '=';
 		private const string RootDirectoryOption = "root_directory";
@@ -23,11 +24,7 @@ namespace png2jpg
 		private const string IncludeSubdirectoriesOption = "include_subdirectories";
 		private const string RemoveOriginalsOption = "remove_originals";
 
-		public MainForm()
-		{
-			InitializeComponent();
-			LoadOptions();
-		}
+		// methods /////////////////////////////////////////////////////////////////////////////////////
 
 		bool LoadOptions()
 		{
@@ -71,7 +68,6 @@ namespace png2jpg
 				}
 
 				return true;
-
 			}
 
 			return false;
@@ -131,6 +127,8 @@ namespace png2jpg
 
 			return true;
 		}
+
+		// form events /////////////////////////////////////////////////////////////////////////////////////
 
 		private void SourceExtensionComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
