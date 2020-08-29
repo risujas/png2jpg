@@ -100,6 +100,7 @@
 			this.SubdirectoriesCheckbox.TabIndex = 8;
 			this.SubdirectoriesCheckbox.Text = " Include subdirectories";
 			this.SubdirectoriesCheckbox.UseVisualStyleBackColor = true;
+			this.SubdirectoriesCheckbox.CheckedChanged += new System.EventHandler(this.SubdirectoriesCheckbox_CheckedChanged);
 			// 
 			// SourceExtensionComboBox
 			// 
@@ -144,6 +145,7 @@
 			this.RemoveOriginalFilesCheckBox.TabIndex = 11;
 			this.RemoveOriginalFilesCheckBox.Text = "Remove original files after conversion";
 			this.RemoveOriginalFilesCheckBox.UseVisualStyleBackColor = true;
+			this.RemoveOriginalFilesCheckBox.CheckedChanged += new System.EventHandler(this.RemoveOriginalFilesCheckBox_CheckedChanged);
 			// 
 			// folderBrowserDialog1
 			// 

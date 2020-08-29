@@ -21,7 +21,6 @@ namespace png2jpg
 		public MainForm()
 		{
 			InitializeComponent();
-
 			LoadOptions();
 		}
 
@@ -50,6 +49,16 @@ namespace png2jpg
 						{
 							TargetExtensionComboBox.SelectedItem = parts[1];
 						}
+
+						if (l.StartsWith("include_subdirectories"))
+						{
+							SubdirectoriesCheckbox.Checked = bool.Parse(parts[1]);
+						}
+
+						if (l.StartsWith("remove_originals"))
+						{
+							RemoveOriginalFilesCheckBox.Checked = bool.Parse(parts[1]);
+						}
 					}
 				}
 
@@ -71,7 +80,8 @@ namespace png2jpg
 			lines.Add("directory" + OptionsDelimiter + RootDirectoryTextBox.Text);
 			lines.Add("source" + OptionsDelimiter + SourceExtensionComboBox.SelectedItem);
 			lines.Add("target" + OptionsDelimiter + TargetExtensionComboBox.SelectedItem);
-
+			lines.Add("include_subdirectories" + OptionsDelimiter + SubdirectoriesCheckbox.Checked);
+			lines.Add("remove_originals" + OptionsDelimiter + RemoveOriginalFilesCheckBox.Checked);
 
 			File.WriteAllLines(OldOptionsFile, lines);
 
@@ -124,11 +134,6 @@ namespace png2jpg
 			ValidateOptions();
 		}
 
-		private void StartConversionButton_Click(object sender, EventArgs e)
-		{
-
-		}
-
 		private void ChooseDirectoryButton_Click(object sender, EventArgs e)
 		{
 			DialogResult result = folderBrowserDialog1.ShowDialog();
@@ -143,6 +148,21 @@ namespace png2jpg
 		private void RootDirectoryTextBox_TextChanged(object sender, EventArgs e)
 		{
 			ValidateOptions();
+		}
+
+		private void SubdirectoriesCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			ValidateOptions();
+		}
+
+		private void RemoveOriginalFilesCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			ValidateOptions();
+		}
+
+		private void StartConversionButton_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
