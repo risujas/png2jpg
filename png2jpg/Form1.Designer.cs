@@ -38,7 +38,7 @@
 			this.SourceExtensionComboBox = new System.Windows.Forms.ComboBox();
 			this.TargetExtensionComboBox = new System.Windows.Forms.ComboBox();
 			this.RemoveOriginalFilesCheckBox = new System.Windows.Forms.CheckBox();
-			this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.FolderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.SourceDirectoryButton = new System.Windows.Forms.Button();
 			this.CopyFilesCheckBox = new System.Windows.Forms.CheckBox();
 			this.TargetDirectoryTextBox = new System.Windows.Forms.TextBox();
@@ -48,6 +48,7 @@
 			this.TargetDirectoryGroupBox = new System.Windows.Forms.GroupBox();
 			this.ProcessManagementTimer = new System.Windows.Forms.Timer(this.components);
 			this.InfoLabel = new System.Windows.Forms.Label();
+			this.FolderBrowserDialog2 = new System.Windows.Forms.FolderBrowserDialog();
 			this.ExtensionsGroupBox.SuspendLayout();
 			this.SourceDirectoryGroupBox.SuspendLayout();
 			this.TargetDirectoryGroupBox.SuspendLayout();
@@ -250,13 +251,13 @@
 			this.ProcessManagementTimer.Interval = 250;
 			this.ProcessManagementTimer.Tick += new System.EventHandler(this.ProcessManagementTimer_Tick);
 			// 
-			// MostRecentFileLabel
+			// InfoLabel
 			// 
 			this.InfoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.InfoLabel.AutoSize = true;
 			this.InfoLabel.Location = new System.Drawing.Point(9, 390);
-			this.InfoLabel.Name = "MostRecentFileLabel";
+			this.InfoLabel.Name = "InfoLabel";
 			this.InfoLabel.Size = new System.Drawing.Size(0, 13);
 			this.InfoLabel.TabIndex = 19;
 			// 
@@ -296,7 +297,7 @@
 		private System.Windows.Forms.ComboBox SourceExtensionComboBox;
 		private System.Windows.Forms.ComboBox TargetExtensionComboBox;
 		private System.Windows.Forms.CheckBox RemoveOriginalFilesCheckBox;
-		private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog;
+		private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog1;
 		private System.Windows.Forms.Button SourceDirectoryButton;
 		private System.Windows.Forms.CheckBox CopyFilesCheckBox;
 		private System.Windows.Forms.TextBox TargetDirectoryTextBox;
@@ -306,6 +307,7 @@
 		private System.Windows.Forms.GroupBox TargetDirectoryGroupBox;
 		private System.Windows.Forms.Timer ProcessManagementTimer;
 		private System.Windows.Forms.Label InfoLabel;
+		private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog2;
 	}
 }
 

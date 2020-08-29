@@ -69,6 +69,7 @@ namespace png2jpg
 					if (l.StartsWith(RootDirectoryOption))
 					{
 						RootDirectoryTextBox.Text = afterDelimiter;
+						FolderBrowserDialog1.SelectedPath = afterDelimiter;
 					}
 
 					if (l.StartsWith(SourceExtensionOption))
@@ -99,6 +100,7 @@ namespace png2jpg
 					if (l.StartsWith(TargetDirectoryOption))
 					{
 						TargetDirectoryTextBox.Text = afterDelimiter;
+						FolderBrowserDialog2.SelectedPath = afterDelimiter;
 					}
 				}
 
@@ -397,10 +399,10 @@ namespace png2jpg
 
 		private void SourceDirectoryButton_Click(object sender, EventArgs e)
 		{
-			DialogResult result = FolderBrowserDialog.ShowDialog();
+			DialogResult result = FolderBrowserDialog1.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				RootDirectoryTextBox.Text = FolderBrowserDialog.SelectedPath;
+				RootDirectoryTextBox.Text = FolderBrowserDialog1.SelectedPath;
 			}
 
 			ValidateOptions();
@@ -430,10 +432,10 @@ namespace png2jpg
 
 		private void TargetDirectoryButton_Click(object sender, EventArgs e)
 		{
-			DialogResult result = FolderBrowserDialog.ShowDialog();
+			DialogResult result = FolderBrowserDialog2.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				TargetDirectoryTextBox.Text = FolderBrowserDialog.SelectedPath;
+				TargetDirectoryTextBox.Text = FolderBrowserDialog1.SelectedPath;
 			}
 
 			ValidateOptions();
