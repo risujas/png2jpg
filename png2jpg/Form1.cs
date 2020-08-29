@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Drawing;
-using System.Diagnostics;
 
 namespace png2jpg
 {
@@ -167,7 +167,7 @@ namespace png2jpg
 				}
 			}
 
-			ConfirmConversionButton.Enabled = good;
+			ConfirmationButton.Enabled = good;
 
 			return good;
 		}
@@ -214,7 +214,7 @@ namespace png2jpg
 			ExtensionsGroupBox.Enabled = state;
 			SourceDirectoryGroupBox.Enabled = state;
 			TargetDirectoryGroupBox.Enabled = state;
-			ConfirmConversionButton.Enabled = state;
+			ConfirmationButton.Enabled = state;
 		}
 
 		int CountCurrentProcesses()
@@ -287,6 +287,7 @@ namespace png2jpg
 			psi.WindowStyle = ProcessWindowStyle.Hidden;
 			spawnedProcesses.Add(Process.Start(psi));
 
+			MostRecentFileLabel.Text = AffectedFilesList[currentFileIndex];
 			logger.Write(psi.FileName + " " + psi.Arguments);
 
 			currentFileIndex++;
@@ -329,10 +330,10 @@ namespace png2jpg
 
 		private void SourceDirectoryButton_Click(object sender, EventArgs e)
 		{
-			DialogResult result = folderBrowserDialog1.ShowDialog();
+			DialogResult result = FolderBrowserDialog.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				RootDirectoryTextBox.Text = folderBrowserDialog1.SelectedPath;
+				RootDirectoryTextBox.Text = FolderBrowserDialog.SelectedPath;
 			}
 
 			ValidateOptions();
@@ -362,10 +363,10 @@ namespace png2jpg
 
 		private void TargetDirectoryButton_Click(object sender, EventArgs e)
 		{
-			DialogResult result = folderBrowserDialog1.ShowDialog();
+			DialogResult result = FolderBrowserDialog.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				TargetDirectoryTextBox.Text = folderBrowserDialog1.SelectedPath;
+				TargetDirectoryTextBox.Text = FolderBrowserDialog.SelectedPath;
 			}
 
 			ValidateOptions();
@@ -376,7 +377,7 @@ namespace png2jpg
 			ValidateOptions();
 		}
 
-		private void StartConversionButton_Click(object sender, EventArgs e)
+		private void ConfirmationButton_Click(object sender, EventArgs e)
 		{
 			var affectedFiles = FindAffectedFiles();
 
@@ -427,7 +428,7 @@ namespace png2jpg
 			}
 		}
 
-		private void timer1_Tick(object sender, EventArgs e)
+		private void ProcessManagementTimer_Tick(object sender, EventArgs e)
 		{
 			if (processingFiles)
 			{

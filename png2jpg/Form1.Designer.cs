@@ -33,12 +33,12 @@
 			this.TargetExtensionLabel = new System.Windows.Forms.Label();
 			this.RootDirectoryTextBox = new System.Windows.Forms.TextBox();
 			this.ProgressBar = new System.Windows.Forms.ProgressBar();
-			this.ConfirmConversionButton = new System.Windows.Forms.Button();
+			this.ConfirmationButton = new System.Windows.Forms.Button();
 			this.SubdirectoriesCheckbox = new System.Windows.Forms.CheckBox();
 			this.SourceExtensionComboBox = new System.Windows.Forms.ComboBox();
 			this.TargetExtensionComboBox = new System.Windows.Forms.ComboBox();
 			this.RemoveOriginalFilesCheckBox = new System.Windows.Forms.CheckBox();
-			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+			this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.SourceDirectoryButton = new System.Windows.Forms.Button();
 			this.CopyFilesCheckBox = new System.Windows.Forms.CheckBox();
 			this.TargetDirectoryTextBox = new System.Windows.Forms.TextBox();
@@ -46,7 +46,8 @@
 			this.ExtensionsGroupBox = new System.Windows.Forms.GroupBox();
 			this.SourceDirectoryGroupBox = new System.Windows.Forms.GroupBox();
 			this.TargetDirectoryGroupBox = new System.Windows.Forms.GroupBox();
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.ProcessManagementTimer = new System.Windows.Forms.Timer(this.components);
+			this.MostRecentFileLabel = new System.Windows.Forms.Label();
 			this.ExtensionsGroupBox.SuspendLayout();
 			this.SourceDirectoryGroupBox.SuspendLayout();
 			this.TargetDirectoryGroupBox.SuspendLayout();
@@ -84,23 +85,23 @@
 			// 
 			this.ProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.ProgressBar.Location = new System.Drawing.Point(12, 335);
+			this.ProgressBar.Location = new System.Drawing.Point(12, 364);
 			this.ProgressBar.Name = "ProgressBar";
 			this.ProgressBar.Size = new System.Drawing.Size(378, 23);
 			this.ProgressBar.TabIndex = 6;
 			// 
-			// ConfirmConversionButton
+			// ConfirmationButton
 			// 
-			this.ConfirmConversionButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			this.ConfirmationButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.ConfirmConversionButton.Enabled = false;
-			this.ConfirmConversionButton.Location = new System.Drawing.Point(12, 306);
-			this.ConfirmConversionButton.Name = "ConfirmConversionButton";
-			this.ConfirmConversionButton.Size = new System.Drawing.Size(378, 23);
-			this.ConfirmConversionButton.TabIndex = 7;
-			this.ConfirmConversionButton.Text = "Confirm conversion";
-			this.ConfirmConversionButton.UseVisualStyleBackColor = true;
-			this.ConfirmConversionButton.Click += new System.EventHandler(this.StartConversionButton_Click);
+			this.ConfirmationButton.Enabled = false;
+			this.ConfirmationButton.Location = new System.Drawing.Point(12, 335);
+			this.ConfirmationButton.Name = "ConfirmationButton";
+			this.ConfirmationButton.Size = new System.Drawing.Size(378, 23);
+			this.ConfirmationButton.TabIndex = 7;
+			this.ConfirmationButton.Text = "Confirm conversion";
+			this.ConfirmationButton.UseVisualStyleBackColor = true;
+			this.ConfirmationButton.Click += new System.EventHandler(this.ConfirmationButton_Click);
 			// 
 			// SubdirectoriesCheckbox
 			// 
@@ -243,20 +244,32 @@
 			this.TargetDirectoryGroupBox.TabStop = false;
 			this.TargetDirectoryGroupBox.Text = "Target directory";
 			// 
-			// timer1
+			// ProcessManagementTimer
 			// 
-			this.timer1.Enabled = true;
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			this.ProcessManagementTimer.Enabled = true;
+			this.ProcessManagementTimer.Interval = 250;
+			this.ProcessManagementTimer.Tick += new System.EventHandler(this.ProcessManagementTimer_Tick);
+			// 
+			// MostRecentFileLabel
+			// 
+			this.MostRecentFileLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.MostRecentFileLabel.AutoSize = true;
+			this.MostRecentFileLabel.Location = new System.Drawing.Point(9, 390);
+			this.MostRecentFileLabel.Name = "MostRecentFileLabel";
+			this.MostRecentFileLabel.Size = new System.Drawing.Size(0, 13);
+			this.MostRecentFileLabel.TabIndex = 19;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(402, 370);
+			this.ClientSize = new System.Drawing.Size(402, 412);
+			this.Controls.Add(this.MostRecentFileLabel);
 			this.Controls.Add(this.TargetDirectoryGroupBox);
 			this.Controls.Add(this.SourceDirectoryGroupBox);
 			this.Controls.Add(this.ExtensionsGroupBox);
-			this.Controls.Add(this.ConfirmConversionButton);
+			this.Controls.Add(this.ConfirmationButton);
 			this.Controls.Add(this.ProgressBar);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "MainForm";
@@ -268,6 +281,7 @@
 			this.TargetDirectoryGroupBox.ResumeLayout(false);
 			this.TargetDirectoryGroupBox.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -277,12 +291,12 @@
 		private System.Windows.Forms.Label TargetExtensionLabel;
 		private System.Windows.Forms.TextBox RootDirectoryTextBox;
 		private System.Windows.Forms.ProgressBar ProgressBar;
-		private System.Windows.Forms.Button ConfirmConversionButton;
+		private System.Windows.Forms.Button ConfirmationButton;
 		private System.Windows.Forms.CheckBox SubdirectoriesCheckbox;
 		private System.Windows.Forms.ComboBox SourceExtensionComboBox;
 		private System.Windows.Forms.ComboBox TargetExtensionComboBox;
 		private System.Windows.Forms.CheckBox RemoveOriginalFilesCheckBox;
-		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+		private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog;
 		private System.Windows.Forms.Button SourceDirectoryButton;
 		private System.Windows.Forms.CheckBox CopyFilesCheckBox;
 		private System.Windows.Forms.TextBox TargetDirectoryTextBox;
@@ -290,7 +304,8 @@
 		private System.Windows.Forms.GroupBox ExtensionsGroupBox;
 		private System.Windows.Forms.GroupBox SourceDirectoryGroupBox;
 		private System.Windows.Forms.GroupBox TargetDirectoryGroupBox;
-		private System.Windows.Forms.Timer timer1;
+		private System.Windows.Forms.Timer ProcessManagementTimer;
+		private System.Windows.Forms.Label MostRecentFileLabel;
 	}
 }
 
