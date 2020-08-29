@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.SourceExtensionLabel = new System.Windows.Forms.Label();
 			this.TargetExtensionLabel = new System.Windows.Forms.Label();
 			this.RootDirectoryTextBox = new System.Windows.Forms.TextBox();
@@ -45,6 +46,7 @@
 			this.ExtensionsGroupBox = new System.Windows.Forms.GroupBox();
 			this.SourceDirectoryGroupBox = new System.Windows.Forms.GroupBox();
 			this.TargetDirectoryGroupBox = new System.Windows.Forms.GroupBox();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.ExtensionsGroupBox.SuspendLayout();
 			this.SourceDirectoryGroupBox.SuspendLayout();
 			this.TargetDirectoryGroupBox.SuspendLayout();
@@ -245,6 +247,11 @@
 			this.TargetDirectoryGroupBox.TabStop = false;
 			this.TargetDirectoryGroupBox.Text = "Target directory";
 			// 
+			// timer1
+			// 
+			this.timer1.Enabled = true;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -287,6 +294,7 @@
 		private System.Windows.Forms.GroupBox ExtensionsGroupBox;
 		private System.Windows.Forms.GroupBox SourceDirectoryGroupBox;
 		private System.Windows.Forms.GroupBox TargetDirectoryGroupBox;
+		private System.Windows.Forms.Timer timer1;
 	}
 }
 

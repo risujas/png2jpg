@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace png2jpg
 {
@@ -18,13 +19,13 @@ namespace png2jpg
 			DefaultGroupBoxColor = ExtensionsGroupBox.BackColor;
 
 			LoadOptions();
-			SetDestinationGroupBoxState();
+			SetDestinationGroupBoxInternalStates();
 			ValidateOptions();
 		}
 
 		// vars /////////////////////////////////////////////////////////////////////////////////////
 
-		Logger logger = new Logger("log.txt");
+		private Logger logger = new Logger("log.txt");
 
 		private readonly Color InvalidColor;
 		private readonly Color DefaultTextBoxColor;
@@ -39,6 +40,12 @@ namespace png2jpg
 		private const string RemoveOriginalsOption = "remove_originals";
 		private const string CopyFilesOption = "copy_files";
 		private const string TargetDirectoryOption = "target_directory";
+
+		private List<Process> spawnedProcesses = new List<Process>();
+		private bool processingFiles = false;
+		private List<string> AffectedFilesList = new List<string>();
+		private int currentFileIndex = 0;
+		private int maximumFileIndex = 0;
 
 		// methods /////////////////////////////////////////////////////////////////////////////////////
 
@@ -190,7 +197,7 @@ namespace png2jpg
 			return affectedFiles;
 		}
 
-		void SetDestinationGroupBoxState()
+		void SetDestinationGroupBoxInternalStates()
 		{
 			TargetDirectoryButton.Enabled = CopyFilesCheckBox.Checked;
 			TargetDirectoryTextBox.Enabled = CopyFilesCheckBox.Checked;
@@ -199,6 +206,27 @@ namespace png2jpg
 			{
 				TargetDirectoryTextBox.BackColor = DefaultTextBoxColor;
 			}
+		}
+
+		void SetGroupBoxStates(bool state)
+		{
+			ExtensionsGroupBox.Enabled = state;
+			SourceDirectoryGroupBox.Enabled = state;
+			TargetDirectoryGroupBox.Enabled = state;
+			ConfirmConversionButton.Enabled = state;
+		}
+
+		int CountFinishedProcesses()
+		{
+			int finished = 0;
+			foreach (var sp in spawnedProcesses)
+			{
+				if (sp.HasExited)
+				{
+					finished++;
+				}
+			}
+			return finished;
 		}
 
 		// form events /////////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +269,7 @@ namespace png2jpg
 
 		private void CopyFilesCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			SetDestinationGroupBoxState();
+			SetDestinationGroupBoxInternalStates();
 
 			ValidateOptions();
 		}
@@ -306,6 +334,72 @@ namespace png2jpg
 				}
 
 				var result = MessageBox.Show(message, "Confirm conversion", MessageBoxButtons.OKCancel);
+				if (result == DialogResult.OK)
+				{
+					AffectedFilesList = affectedFiles;
+					currentFileIndex = 0;
+					maximumFileIndex = AffectedFilesList.Count;
+					processingFiles = true;
+				}
+			}
+		}
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			if (processingFiles)
+			{
+				if (currentFileIndex < maximumFileIndex)
+				{
+					SetGroupBoxStates(false);
+
+					string filePathWithoutExtension = AffectedFilesList[currentFileIndex];
+
+					if (!filePathWithoutExtension.Contains('.'))
+					{
+						return;
+					}
+
+					while (filePathWithoutExtension.Last() != '.')
+					{
+						filePathWithoutExtension = filePathWithoutExtension.Remove(filePathWithoutExtension.Count() - 1, 1);
+					}
+					filePathWithoutExtension = filePathWithoutExtension.Remove(filePathWithoutExtension.Count() - 1, 1);
+
+					string[] possibleExtensions = TargetExtensionComboBox.SelectedItem.ToString().Split(' ');
+					string newFilePath = filePathWithoutExtension + possibleExtensions[0];
+
+					if (CopyFilesCheckBox.Checked)
+					{
+						newFilePath = newFilePath.Replace(RootDirectoryTextBox.Text, TargetDirectoryTextBox.Text);
+					}
+
+					ProcessStartInfo psi = new ProcessStartInfo();
+					psi.FileName = Environment.CurrentDirectory + @"/ffmpeg/bin/ffmpeg.exe";
+					psi.Arguments = "-y -i \"" + AffectedFilesList[currentFileIndex] + "\" \"" + newFilePath + "\"";
+					spawnedProcesses.Add(Process.Start(psi));
+
+					logger.Write(psi.FileName + " " + psi.Arguments);
+
+					currentFileIndex++;
+				}
+
+				if (CountFinishedProcesses() == maximumFileIndex)
+				{
+					AffectedFilesList.Clear();
+					currentFileIndex = 0;
+					processingFiles = false;
+					spawnedProcesses.Clear();
+
+					ProgressBar.Value = maximumFileIndex;
+
+					SetGroupBoxStates(true);
+				}
+
+				else
+				{
+					ProgressBar.Value = CountFinishedProcesses();
+					ProgressBar.Maximum = maximumFileIndex;
+				}
 			}
 		}
 	}
