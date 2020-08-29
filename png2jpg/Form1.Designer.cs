@@ -42,11 +42,11 @@
 			this.CopyFilesCheckBox = new System.Windows.Forms.CheckBox();
 			this.TargetDirectoryTextBox = new System.Windows.Forms.TextBox();
 			this.TargetDirectoryButton = new System.Windows.Forms.Button();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.ExtensionsGroupBox = new System.Windows.Forms.GroupBox();
+			this.SourceDirectoryGroupBox = new System.Windows.Forms.GroupBox();
 			this.TargetDirectoryGroupBox = new System.Windows.Forms.GroupBox();
-			this.groupBox1.SuspendLayout();
-			this.groupBox2.SuspendLayout();
+			this.ExtensionsGroupBox.SuspendLayout();
+			this.SourceDirectoryGroupBox.SuspendLayout();
 			this.TargetDirectoryGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -201,35 +201,35 @@
 			this.TargetDirectoryButton.UseVisualStyleBackColor = true;
 			this.TargetDirectoryButton.Click += new System.EventHandler(this.TargetDirectoryButton_Click);
 			// 
-			// groupBox1
+			// ExtensionsGroupBox
 			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.ExtensionsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox1.Controls.Add(this.SourceExtensionLabel);
-			this.groupBox1.Controls.Add(this.SourceExtensionComboBox);
-			this.groupBox1.Controls.Add(this.TargetExtensionLabel);
-			this.groupBox1.Controls.Add(this.TargetExtensionComboBox);
-			this.groupBox1.Location = new System.Drawing.Point(12, 12);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(378, 103);
-			this.groupBox1.TabIndex = 16;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "File extensions";
+			this.ExtensionsGroupBox.Controls.Add(this.SourceExtensionLabel);
+			this.ExtensionsGroupBox.Controls.Add(this.SourceExtensionComboBox);
+			this.ExtensionsGroupBox.Controls.Add(this.TargetExtensionLabel);
+			this.ExtensionsGroupBox.Controls.Add(this.TargetExtensionComboBox);
+			this.ExtensionsGroupBox.Location = new System.Drawing.Point(12, 12);
+			this.ExtensionsGroupBox.Name = "ExtensionsGroupBox";
+			this.ExtensionsGroupBox.Size = new System.Drawing.Size(378, 103);
+			this.ExtensionsGroupBox.TabIndex = 16;
+			this.ExtensionsGroupBox.TabStop = false;
+			this.ExtensionsGroupBox.Text = "File extensions";
 			// 
-			// groupBox2
+			// SourceDirectoryGroupBox
 			// 
-			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.SourceDirectoryGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox2.Controls.Add(this.SourceDirectoryButton);
-			this.groupBox2.Controls.Add(this.RootDirectoryTextBox);
-			this.groupBox2.Controls.Add(this.SubdirectoriesCheckbox);
-			this.groupBox2.Controls.Add(this.RemoveOriginalFilesCheckBox);
-			this.groupBox2.Location = new System.Drawing.Point(12, 121);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(378, 95);
-			this.groupBox2.TabIndex = 17;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Source directory";
+			this.SourceDirectoryGroupBox.Controls.Add(this.SourceDirectoryButton);
+			this.SourceDirectoryGroupBox.Controls.Add(this.RootDirectoryTextBox);
+			this.SourceDirectoryGroupBox.Controls.Add(this.SubdirectoriesCheckbox);
+			this.SourceDirectoryGroupBox.Controls.Add(this.RemoveOriginalFilesCheckBox);
+			this.SourceDirectoryGroupBox.Location = new System.Drawing.Point(12, 121);
+			this.SourceDirectoryGroupBox.Name = "SourceDirectoryGroupBox";
+			this.SourceDirectoryGroupBox.Size = new System.Drawing.Size(378, 95);
+			this.SourceDirectoryGroupBox.TabIndex = 17;
+			this.SourceDirectoryGroupBox.TabStop = false;
+			this.SourceDirectoryGroupBox.Text = "Source directory";
 			// 
 			// TargetDirectoryGroupBox
 			// 
@@ -251,17 +251,17 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(402, 370);
 			this.Controls.Add(this.TargetDirectoryGroupBox);
-			this.Controls.Add(this.groupBox2);
-			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.SourceDirectoryGroupBox);
+			this.Controls.Add(this.ExtensionsGroupBox);
 			this.Controls.Add(this.ConfirmConversionButton);
 			this.Controls.Add(this.ProgressBar);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "MainForm";
 			this.Text = "png2jpg";
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
+			this.ExtensionsGroupBox.ResumeLayout(false);
+			this.ExtensionsGroupBox.PerformLayout();
+			this.SourceDirectoryGroupBox.ResumeLayout(false);
+			this.SourceDirectoryGroupBox.PerformLayout();
 			this.TargetDirectoryGroupBox.ResumeLayout(false);
 			this.TargetDirectoryGroupBox.PerformLayout();
 			this.ResumeLayout(false);
@@ -284,8 +284,8 @@
 		private System.Windows.Forms.CheckBox CopyFilesCheckBox;
 		private System.Windows.Forms.TextBox TargetDirectoryTextBox;
 		private System.Windows.Forms.Button TargetDirectoryButton;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.GroupBox ExtensionsGroupBox;
+		private System.Windows.Forms.GroupBox SourceDirectoryGroupBox;
 		private System.Windows.Forms.GroupBox TargetDirectoryGroupBox;
 	}
 }

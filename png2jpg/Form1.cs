@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace png2jpg
 {
@@ -15,11 +16,20 @@ namespace png2jpg
 			LoadOptions();
 			SetDestinationGroupBoxState();
 			ValidateOptions();
+
+			InvalidColor = Color.FromArgb(255, 230, 230);
+			DefaultTextBoxColor = RootDirectoryTextBox.BackColor;
+			DefaultGroupBoxColor = ExtensionsGroupBox.BackColor;
 		}
 
 		// vars /////////////////////////////////////////////////////////////////////////////////////
 
 		Logger logger = new Logger("log.txt");
+
+		private readonly Color InvalidColor;
+		private readonly Color DefaultTextBoxColor;
+		private readonly Color DefaultGroupBoxColor;
+
 		private const string OldOptionsFile = "options.txt";
 		private const char OptionsDelimiter = '=';
 		private const string RootDirectoryOption = "root_directory";
@@ -114,31 +124,37 @@ namespace png2jpg
 		{
 			bool good = true;
 
-			if (SourceExtensionComboBox.SelectedIndex == -1)
-			{
-				good = false;
-			}
-
-			if (TargetExtensionComboBox.SelectedIndex == -1)
-			{
-				good = false;
-			}
-
+			ExtensionsGroupBox.BackColor = DefaultGroupBoxColor;
 			if (SourceExtensionComboBox.SelectedIndex == TargetExtensionComboBox.SelectedIndex)
 			{
 				good = false;
+				ExtensionsGroupBox.BackColor = InvalidColor;
+			}
+			else if (SourceExtensionComboBox.SelectedIndex == -1)
+			{
+				good = false;
+				ExtensionsGroupBox.BackColor = InvalidColor;
+			}
+			else if (TargetExtensionComboBox.SelectedIndex == -1)
+			{
+				good = false;
+				ExtensionsGroupBox.BackColor = InvalidColor;
 			}
 
+			RootDirectoryTextBox.BackColor = DefaultTextBoxColor;
 			if (!Directory.Exists(RootDirectoryTextBox.Text))
 			{
 				good = false;
+				RootDirectoryTextBox.BackColor = InvalidColor;
 			}
 
 			if (CopyFilesCheckBox.Checked)
 			{
+				TargetDirectoryTextBox.BackColor = DefaultTextBoxColor;
 				if (!Directory.Exists(TargetDirectoryTextBox.Text))
 				{
 					good = false;
+					TargetDirectoryTextBox.BackColor = InvalidColor;
 				}
 			}
 
