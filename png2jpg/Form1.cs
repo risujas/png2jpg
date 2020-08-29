@@ -49,6 +49,12 @@ namespace png2jpg
 		private int currentFileIndex = 0;
 		private int maximumFileIndex = 0;
 
+		private DateTime cpuCounterStartTime = new DateTime();
+		private double cpuCounterResetInterval = 5.0;
+		private double totalCpuValue = 0.0;
+		private int totalCpuChecks = 0;
+		private PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+
 		// methods /////////////////////////////////////////////////////////////////////////////////////
 
 		bool LoadOptions()
@@ -512,15 +518,43 @@ namespace png2jpg
 				{
 					StartNextProcess();
 				}
-
 				if (CountFinishedProcesses() == maximumFileIndex)
 				{
 					CleanUp();
 				}
-
 				else
 				{
 					ProgressBar.Value = CountFinishedProcesses();
+				}
+
+				if (DateTime.Now > cpuCounterStartTime.AddSeconds(cpuCounterResetInterval))
+				{
+					double averageCpuValue = totalCpuValue / totalCpuChecks;
+
+					if (averageCpuValue < 50.0)
+					{
+						maxProcessLimit++;
+						logger.Write("Average CPU usage at " + averageCpuValue + "% - Set process limit to " + maxProcessLimit.ToString());
+					}
+					else if (averageCpuValue > 75.0)
+					{
+						if (maxProcessLimit > 1)
+						{
+							maxProcessLimit--;
+							logger.Write("Average CPU usage at " + averageCpuValue + "% - Set process limit to " + maxProcessLimit.ToString());
+						}
+					}
+					else
+					{
+						logger.Write("Average CPU usage at " + averageCpuValue + "%");
+					}
+
+					cpuCounterStartTime = DateTime.Now;
+				}
+				else
+				{
+					totalCpuValue += cpuCounter.NextValue();
+					totalCpuChecks++;
 				}
 			}
 		}
