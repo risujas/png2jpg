@@ -440,7 +440,7 @@ namespace png2jpg
 			DialogResult result = FolderBrowserDialog2.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				TargetDirectoryTextBox.Text = FolderBrowserDialog1.SelectedPath;
+				TargetDirectoryTextBox.Text = FolderBrowserDialog2.SelectedPath;
 			}
 
 			ValidateOptions();
