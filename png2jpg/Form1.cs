@@ -329,6 +329,13 @@ namespace png2jpg
 			if (CopyFilesCheckBox.Checked)
 			{
 				newFilePath = newFilePath.Replace(RootDirectoryTextBox.Text, TargetDirectoryTextBox.Text);
+
+				string newFolderPath = newFilePath;
+				while (newFolderPath.Last() != '/' && newFolderPath.Last() != '\\')
+				{
+					newFolderPath = newFolderPath.Remove(newFolderPath.Count() - 1, 1);
+				}
+				Directory.CreateDirectory(newFolderPath);
 			}
 
 			ProcessStartInfo psi = new ProcessStartInfo();
