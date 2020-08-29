@@ -16,6 +16,7 @@ namespace png2jpg
 	public partial class MainForm : Form
 	{
 		private const string OldOptionsFile = "options.txt";
+		private const char OptionsDelimiter = '?';
 
 		public MainForm()
 		{
@@ -32,9 +33,9 @@ namespace png2jpg
 
 				foreach (var l in lines)
 				{
-					if (l.StartsWith("directory:"))
+					if (l.StartsWith("directory" + OptionsDelimiter))
 					{
-						string[] parts = l.Split(':');
+						string[] parts = l.Split(OptionsDelimiter);
 						if (parts.Length > 1)
 						{
 							RootDirectoryTextBox.Text = parts[1];
@@ -56,13 +57,18 @@ namespace png2jpg
 				File.Delete(OldOptionsFile);
 			}
 
-			// TODO
+			List<string> lines = new List<string>();
+			lines.Add("directory" + OptionsDelimiter + RootDirectoryTextBox.Text);
+
+			File.WriteAllLines(OldOptionsFile, lines);
 
 			return true;
 		}
 
 		bool ValidateOptions()
 		{
+			WriteOptions();
+
 			ConfirmConversionButton.Enabled = false;
 
 			if (SourceExtensionComboBox.SelectedIndex == -1)
