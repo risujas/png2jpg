@@ -17,6 +17,11 @@ namespace png2jpg
 	{
 		private const string OldOptionsFile = "options.txt";
 		private const char OptionsDelimiter = '?';
+		private const string RootDirectoryOption = "root_directory";
+		private const string SourceExtensionOption = "source_extension";
+		private const string TargetExtensionOption = "target_extension";
+		private const string IncludeSubdirectoriesOption = "include_subdirectories";
+		private const string RemoveOriginalsOption = "remove_originals";
 
 		public MainForm()
 		{
@@ -35,27 +40,27 @@ namespace png2jpg
 					string[] parts = l.Split(OptionsDelimiter);
 					if (parts.Length > 1)
 					{
-						if (l.StartsWith("directory"))
+						if (l.StartsWith(RootDirectoryOption))
 						{
 							RootDirectoryTextBox.Text = parts[1];
 						}
 
-						if (l.StartsWith("source"))
+						if (l.StartsWith(SourceExtensionOption))
 						{
 							SourceExtensionComboBox.SelectedItem = parts[1];
 						}
 
-						if (l.StartsWith("target"))
+						if (l.StartsWith(TargetExtensionOption))
 						{
 							TargetExtensionComboBox.SelectedItem = parts[1];
 						}
 
-						if (l.StartsWith("include_subdirectories"))
+						if (l.StartsWith(IncludeSubdirectoriesOption))
 						{
 							SubdirectoriesCheckbox.Checked = bool.Parse(parts[1]);
 						}
 
-						if (l.StartsWith("remove_originals"))
+						if (l.StartsWith(RemoveOriginalsOption))
 						{
 							RemoveOriginalFilesCheckBox.Checked = bool.Parse(parts[1]);
 						}
@@ -77,11 +82,11 @@ namespace png2jpg
 			}
 
 			List<string> lines = new List<string>();
-			lines.Add("directory" + OptionsDelimiter + RootDirectoryTextBox.Text);
-			lines.Add("source" + OptionsDelimiter + SourceExtensionComboBox.SelectedItem);
-			lines.Add("target" + OptionsDelimiter + TargetExtensionComboBox.SelectedItem);
-			lines.Add("include_subdirectories" + OptionsDelimiter + SubdirectoriesCheckbox.Checked);
-			lines.Add("remove_originals" + OptionsDelimiter + RemoveOriginalFilesCheckBox.Checked);
+			lines.Add(RootDirectoryOption + OptionsDelimiter + RootDirectoryTextBox.Text);
+			lines.Add(SourceExtensionOption + OptionsDelimiter + SourceExtensionComboBox.SelectedItem);
+			lines.Add(TargetExtensionOption + OptionsDelimiter + TargetExtensionComboBox.SelectedItem);
+			lines.Add(IncludeSubdirectoriesOption + OptionsDelimiter + SubdirectoriesCheckbox.Checked);
+			lines.Add(RemoveOriginalsOption + OptionsDelimiter + RemoveOriginalFilesCheckBox.Checked);
 
 			File.WriteAllLines(OldOptionsFile, lines);
 
@@ -162,7 +167,7 @@ namespace png2jpg
 
 		private void StartConversionButton_Click(object sender, EventArgs e)
 		{
-
+			// TODO
 		}
 	}
 }
