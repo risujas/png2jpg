@@ -37,33 +37,31 @@ namespace png2jpg
 
 				foreach (var l in lines)
 				{
-					string[] parts = l.Split(OptionsDelimiter);
-					if (parts.Length > 1)
+					string afterDelimiter = l.Substring(l.IndexOf(OptionsDelimiter) + 1);
+
+					if (l.StartsWith(RootDirectoryOption))
 					{
-						if (l.StartsWith(RootDirectoryOption))
-						{
-							RootDirectoryTextBox.Text = parts[1];
-						}
+						RootDirectoryTextBox.Text = afterDelimiter;
+					}
 
-						if (l.StartsWith(SourceExtensionOption))
-						{
-							SourceExtensionComboBox.SelectedItem = parts[1];
-						}
+					if (l.StartsWith(SourceExtensionOption))
+					{
+						SourceExtensionComboBox.SelectedItem = afterDelimiter;
+					}
 
-						if (l.StartsWith(TargetExtensionOption))
-						{
-							TargetExtensionComboBox.SelectedItem = parts[1];
-						}
+					if (l.StartsWith(TargetExtensionOption))
+					{
+						TargetExtensionComboBox.SelectedItem = afterDelimiter;
+					}
 
-						if (l.StartsWith(IncludeSubdirectoriesOption))
-						{
-							SubdirectoriesCheckbox.Checked = bool.Parse(parts[1]);
-						}
+					if (l.StartsWith(IncludeSubdirectoriesOption))
+					{
+						SubdirectoriesCheckbox.Checked = bool.Parse(afterDelimiter);
+					}
 
-						if (l.StartsWith(RemoveOriginalsOption))
-						{
-							RemoveOriginalFilesCheckBox.Checked = bool.Parse(parts[1]);
-						}
+					if (l.StartsWith(RemoveOriginalsOption))
+					{
+						RemoveOriginalFilesCheckBox.Checked = bool.Parse(afterDelimiter);
 					}
 				}
 
