@@ -41,9 +41,10 @@ namespace png2jpg
 		private const string CopyFilesOption = "copy_files";
 		private const string TargetDirectoryOption = "target_directory";
 
-		private const int MaxProcessLimit = 4;
-		private List<Process> spawnedProcesses = new List<Process>();
+		private DateTime startTime = new DateTime();
 		private bool processingFiles = false;
+		private const int MaxProcessLimit = 2;
+		private List<Process> spawnedProcesses = new List<Process>();
 		private List<string> AffectedFilesList = new List<string>();
 		private int currentFileIndex = 0;
 		private int maximumFileIndex = 0;
@@ -243,6 +244,24 @@ namespace png2jpg
 			return finished;
 		}
 
+		int GetEstimatedTimeLeft()
+		{
+			TimeSpan elapsedTime = DateTime.Now.Subtract(startTime);
+
+			int finishedItems = CountFinishedProcesses();
+			if (finishedItems == 0) { finishedItems = 1; }
+
+			double elapsedTimePerItem = elapsedTime.TotalSeconds / finishedItems;
+			double remainingTime = (maximumFileIndex - CountFinishedProcesses() - CountCurrentProcesses()) * elapsedTimePerItem;
+
+			return (int)remainingTime;
+		}
+
+		void SetInfoLabel(string s)
+		{
+			InfoLabel.Text = s;
+		}
+
 		void InitiateConversion(List<string> files)
 		{
 			AffectedFilesList = files;
@@ -254,6 +273,8 @@ namespace png2jpg
 
 			ProgressBar.Value = 0;
 			ProgressBar.Maximum = maximumFileIndex;
+
+			startTime = DateTime.Now;
 
 			SetGroupBoxStates(false);
 		}
@@ -287,7 +308,15 @@ namespace png2jpg
 			psi.WindowStyle = ProcessWindowStyle.Hidden;
 			spawnedProcesses.Add(Process.Start(psi));
 
-			MostRecentFileLabel.Text = AffectedFilesList[currentFileIndex];
+			if (currentFileIndex >= maximumFileIndex / 10)
+			{
+				SetInfoLabel("ETA: " + GetEstimatedTimeLeft() + "s - " + AffectedFilesList[currentFileIndex]);
+			}
+			else
+			{
+				SetInfoLabel("ETA: calculating - " + AffectedFilesList[currentFileIndex]);
+			}
+
 			logger.Write(psi.FileName + " " + psi.Arguments);
 
 			currentFileIndex++;
@@ -302,6 +331,8 @@ namespace png2jpg
 					File.Delete(af);
 				}
 			}
+
+			SetInfoLabel("Tasks finished.");
 
 			ProgressBar.Value = maximumFileIndex;
 			ProgressBar.Maximum = maximumFileIndex;

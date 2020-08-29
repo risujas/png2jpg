@@ -47,7 +47,7 @@
 			this.SourceDirectoryGroupBox = new System.Windows.Forms.GroupBox();
 			this.TargetDirectoryGroupBox = new System.Windows.Forms.GroupBox();
 			this.ProcessManagementTimer = new System.Windows.Forms.Timer(this.components);
-			this.MostRecentFileLabel = new System.Windows.Forms.Label();
+			this.InfoLabel = new System.Windows.Forms.Label();
 			this.ExtensionsGroupBox.SuspendLayout();
 			this.SourceDirectoryGroupBox.SuspendLayout();
 			this.TargetDirectoryGroupBox.SuspendLayout();
@@ -252,20 +252,20 @@
 			// 
 			// MostRecentFileLabel
 			// 
-			this.MostRecentFileLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			this.InfoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.MostRecentFileLabel.AutoSize = true;
-			this.MostRecentFileLabel.Location = new System.Drawing.Point(9, 390);
-			this.MostRecentFileLabel.Name = "MostRecentFileLabel";
-			this.MostRecentFileLabel.Size = new System.Drawing.Size(0, 13);
-			this.MostRecentFileLabel.TabIndex = 19;
+			this.InfoLabel.AutoSize = true;
+			this.InfoLabel.Location = new System.Drawing.Point(9, 390);
+			this.InfoLabel.Name = "MostRecentFileLabel";
+			this.InfoLabel.Size = new System.Drawing.Size(0, 13);
+			this.InfoLabel.TabIndex = 19;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(402, 412);
-			this.Controls.Add(this.MostRecentFileLabel);
+			this.Controls.Add(this.InfoLabel);
 			this.Controls.Add(this.TargetDirectoryGroupBox);
 			this.Controls.Add(this.SourceDirectoryGroupBox);
 			this.Controls.Add(this.ExtensionsGroupBox);
@@ -305,7 +305,7 @@
 		private System.Windows.Forms.GroupBox SourceDirectoryGroupBox;
 		private System.Windows.Forms.GroupBox TargetDirectoryGroupBox;
 		private System.Windows.Forms.Timer ProcessManagementTimer;
-		private System.Windows.Forms.Label MostRecentFileLabel;
+		private System.Windows.Forms.Label InfoLabel;
 	}
 }
 
