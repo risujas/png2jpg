@@ -264,8 +264,49 @@ namespace png2jpg
 
 		private void StartConversionButton_Click(object sender, EventArgs e)
 		{
-			WriteOptions();
-			MessageBox.Show(FindAffectedFiles().Count.ToString());
+			var affectedFiles = FindAffectedFiles();
+
+			if (affectedFiles.Count == 0)
+			{
+				MessageBox.Show("0 matching files were found.", "Confirm conversion");
+				return;
+			}
+
+			else
+			{
+				string message = "";
+
+				if (!SubdirectoriesCheckbox.Checked)
+				{
+					message += FindAffectedFiles().Count.ToString() + " matching files were found in the source directory." + "\n";
+				}
+				else
+				{
+					message += FindAffectedFiles().Count.ToString() + " matching files were found in the source directory and its subdirectories." + "\n";
+				}
+				message += "\n";
+
+				if (!CopyFilesCheckBox.Checked)
+				{
+					message += "The converted files will be saved next to the original files." + "\n";
+				}
+				else
+				{
+					message += "The converted files will be moved to a different directory." + "\n";
+				}
+				message += "\n";
+
+				if (!RemoveOriginalFilesCheckBox.Checked)
+				{
+					message += "The original files will not be removed." + "\n";
+				}
+				else
+				{
+					message += "THE ORIGINAL FILES WILL BE REMOVED." + "\n";
+				}
+
+				var result = MessageBox.Show(message, "Confirm conversion", MessageBoxButtons.YesNo);
+			}
 		}
 	}
 }
