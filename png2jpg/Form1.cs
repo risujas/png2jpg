@@ -16,7 +16,7 @@ namespace png2jpg
 	public partial class MainForm : Form
 	{
 		private const string OldOptionsFile = "options.txt";
-		private const char OptionsDelimiter = '?';
+		private const char OptionsDelimiter = '=';
 		private const string RootDirectoryOption = "root_directory";
 		private const string SourceExtensionOption = "source_extension";
 		private const string TargetExtensionOption = "target_extension";
@@ -37,6 +37,11 @@ namespace png2jpg
 
 				foreach (var l in lines)
 				{
+					if (!l.Contains(OptionsDelimiter))
+					{
+						continue;
+					}
+
 					string afterDelimiter = l.Substring(l.IndexOf(OptionsDelimiter) + 1);
 
 					if (l.StartsWith(RootDirectoryOption))
