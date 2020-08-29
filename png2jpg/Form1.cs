@@ -305,7 +305,7 @@ namespace png2jpg
 					message += "THE ORIGINAL FILES WILL BE REMOVED." + "\n";
 				}
 
-				var result = MessageBox.Show(message, "Confirm conversion", MessageBoxButtons.YesNo);
+				var result = MessageBox.Show(message, "Confirm conversion", MessageBoxButtons.OKCancel);
 			}
 		}
 	}
