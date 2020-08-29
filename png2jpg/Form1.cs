@@ -159,9 +159,16 @@ namespace png2jpg
 			}
 
 			string[] extensions = SourceExtensionComboBox.SelectedItem.ToString().Split(' ');
-			foreach (var e in extensions)
+			foreach (var ext in extensions)
 			{
-				affectedFiles.AddRange(Directory.GetFiles(RootDirectoryTextBox.Text, "*" + e, so).ToList());
+				try
+				{
+					affectedFiles.AddRange(Directory.GetFiles(RootDirectoryTextBox.Text, "*" + ext, so).ToList());
+				}
+				catch (System.UnauthorizedAccessException e)
+				{
+					// TODO LOG
+				}
 			}
 
 			return affectedFiles;
