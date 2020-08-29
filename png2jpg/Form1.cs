@@ -15,7 +15,7 @@ namespace png2jpg
 			InitializeComponent();
 
 			InvalidColor = Color.FromArgb(255, 230, 230);
-			DefaultTextBoxColor = RootDirectoryTextBox.BackColor;
+			DefaultTextBoxColor = SourceDirectoryTextBox.BackColor;
 			DefaultGroupBoxColor = ExtensionsGroupBox.BackColor;
 
 			LoadOptions();
@@ -33,13 +33,13 @@ namespace png2jpg
 
 		private const string OldOptionsFile = "options.txt";
 		private const char OptionsDelimiter = '=';
-		private const string RootDirectoryOption = "root_directory";
+		private const string SourceDirectoryOption = "source_directory";
+		private const string TargetDirectoryOption = "target_directory";
 		private const string SourceExtensionOption = "source_extension";
 		private const string TargetExtensionOption = "target_extension";
 		private const string IncludeSubdirectoriesOption = "include_subdirectories";
 		private const string RemoveOriginalsOption = "remove_originals";
-		private const string CopyFilesOption = "copy_files";
-		private const string TargetDirectoryOption = "target_directory";
+		private const string UseDifferentDirectoryOption = "use_different_directory";
 
 		private DateTime startTime = new DateTime();
 		private bool processingFiles = false;
@@ -66,9 +66,9 @@ namespace png2jpg
 
 					string afterDelimiter = l.Substring(l.IndexOf(OptionsDelimiter) + 1);
 
-					if (l.StartsWith(RootDirectoryOption))
+					if (l.StartsWith(SourceDirectoryOption))
 					{
-						RootDirectoryTextBox.Text = afterDelimiter;
+						SourceDirectoryTextBox.Text = afterDelimiter;
 						FolderBrowserDialog1.SelectedPath = afterDelimiter;
 					}
 
@@ -84,7 +84,7 @@ namespace png2jpg
 
 					if (l.StartsWith(IncludeSubdirectoriesOption))
 					{
-						SubdirectoriesCheckbox.Checked = bool.Parse(afterDelimiter);
+						IncludeSubdirectoriesCheckbox.Checked = bool.Parse(afterDelimiter);
 					}
 
 					if (l.StartsWith(RemoveOriginalsOption))
@@ -92,9 +92,9 @@ namespace png2jpg
 						RemoveOriginalFilesCheckBox.Checked = bool.Parse(afterDelimiter);
 					}
 
-					if (l.StartsWith(CopyFilesOption))
+					if (l.StartsWith(UseDifferentDirectoryOption))
 					{
-						CopyFilesCheckBox.Checked = bool.Parse(afterDelimiter);
+						UseDifferentDirectoryCheckBox.Checked = bool.Parse(afterDelimiter);
 					}
 
 					if (l.StartsWith(TargetDirectoryOption))
@@ -118,12 +118,12 @@ namespace png2jpg
 			}
 
 			List<string> lines = new List<string>();
-			lines.Add(RootDirectoryOption + OptionsDelimiter + RootDirectoryTextBox.Text);
+			lines.Add(SourceDirectoryOption + OptionsDelimiter + SourceDirectoryTextBox.Text);
 			lines.Add(SourceExtensionOption + OptionsDelimiter + SourceExtensionComboBox.SelectedItem);
 			lines.Add(TargetExtensionOption + OptionsDelimiter + TargetExtensionComboBox.SelectedItem);
-			lines.Add(IncludeSubdirectoriesOption + OptionsDelimiter + SubdirectoriesCheckbox.Checked);
+			lines.Add(IncludeSubdirectoriesOption + OptionsDelimiter + IncludeSubdirectoriesCheckbox.Checked);
 			lines.Add(RemoveOriginalsOption + OptionsDelimiter + RemoveOriginalFilesCheckBox.Checked);
-			lines.Add(CopyFilesOption + OptionsDelimiter + CopyFilesCheckBox.Checked);
+			lines.Add(UseDifferentDirectoryOption + OptionsDelimiter + UseDifferentDirectoryCheckBox.Checked);
 			lines.Add(TargetDirectoryOption + OptionsDelimiter + TargetDirectoryTextBox.Text);
 
 			File.WriteAllLines(OldOptionsFile, lines);
@@ -154,13 +154,13 @@ namespace png2jpg
 				ExtensionsGroupBox.BackColor = InvalidColor;
 			}
 
-			RootDirectoryTextBox.BackColor = DefaultTextBoxColor;
-			if (!Directory.Exists(RootDirectoryTextBox.Text))
+			SourceDirectoryTextBox.BackColor = DefaultTextBoxColor;
+			if (!Directory.Exists(SourceDirectoryTextBox.Text))
 			{
 				good = false;
-				RootDirectoryTextBox.BackColor = InvalidColor;
+				SourceDirectoryTextBox.BackColor = InvalidColor;
 			}
-			if (CopyFilesCheckBox.Checked)
+			if (UseDifferentDirectoryCheckBox.Checked)
 			{
 				TargetDirectoryTextBox.BackColor = DefaultTextBoxColor;
 				if (!Directory.Exists(TargetDirectoryTextBox.Text))
@@ -180,7 +180,7 @@ namespace png2jpg
 			List<string> affectedFiles = new List<string>();
 
 			SearchOption so = SearchOption.TopDirectoryOnly;
-			if (SubdirectoriesCheckbox.Checked)
+			if (IncludeSubdirectoriesCheckbox.Checked)
 			{
 				so = SearchOption.AllDirectories;
 			}
@@ -190,7 +190,7 @@ namespace png2jpg
 			{
 				try
 				{
-					affectedFiles.AddRange(Directory.GetFiles(RootDirectoryTextBox.Text, "*" + ext, so).ToList());
+					affectedFiles.AddRange(Directory.GetFiles(SourceDirectoryTextBox.Text, "*" + ext, so).ToList());
 				}
 				catch (System.UnauthorizedAccessException e)
 				{
@@ -203,8 +203,8 @@ namespace png2jpg
 
 		void SetDestinationGroupBoxInternalStates()
 		{
-			TargetDirectoryButton.Enabled = CopyFilesCheckBox.Checked;
-			TargetDirectoryTextBox.Enabled = CopyFilesCheckBox.Checked;
+			TargetDirectoryButton.Enabled = UseDifferentDirectoryCheckBox.Checked;
+			TargetDirectoryTextBox.Enabled = UseDifferentDirectoryCheckBox.Checked;
 
 			if (!TargetDirectoryTextBox.Enabled)
 			{
@@ -328,9 +328,9 @@ namespace png2jpg
 			string[] possibleExtensions = TargetExtensionComboBox.SelectedItem.ToString().Split(' ');
 			string newFilePath = filePathWithoutExtension + possibleExtensions[0];
 
-			if (CopyFilesCheckBox.Checked)
+			if (UseDifferentDirectoryCheckBox.Checked)
 			{
-				newFilePath = newFilePath.Replace(RootDirectoryTextBox.Text, TargetDirectoryTextBox.Text);
+				newFilePath = newFilePath.Replace(SourceDirectoryTextBox.Text, TargetDirectoryTextBox.Text);
 
 				string newFolderPath = newFilePath;
 				while (newFolderPath.Last() != '/' && newFolderPath.Last() != '\\')
@@ -402,18 +402,18 @@ namespace png2jpg
 			DialogResult result = FolderBrowserDialog1.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				RootDirectoryTextBox.Text = FolderBrowserDialog1.SelectedPath;
+				SourceDirectoryTextBox.Text = FolderBrowserDialog1.SelectedPath;
 			}
 
 			ValidateOptions();
 		}
 
-		private void RootDirectoryTextBox_TextChanged(object sender, EventArgs e)
+		private void SourceDirectoryTextBox_TextChanged(object sender, EventArgs e)
 		{
 			ValidateOptions();
 		}
 
-		private void SubdirectoriesCheckbox_CheckedChanged(object sender, EventArgs e)
+		private void IncludeSubdirectories_CheckedChanged(object sender, EventArgs e)
 		{
 			ValidateOptions();
 		}
@@ -423,7 +423,7 @@ namespace png2jpg
 			ValidateOptions();
 		}
 
-		private void CopyFilesCheckBox_CheckedChanged(object sender, EventArgs e)
+		private void UseDifferentDirectoryCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			SetDestinationGroupBoxInternalStates();
 
@@ -460,7 +460,7 @@ namespace png2jpg
 			{
 				string message = "";
 
-				if (!SubdirectoriesCheckbox.Checked)
+				if (!IncludeSubdirectoriesCheckbox.Checked)
 				{
 					message += FindAffectedFiles().Count.ToString() + " matching files were found in the source directory." + "\n";
 				}
@@ -470,7 +470,7 @@ namespace png2jpg
 				}
 				message += "\n";
 
-				if (!CopyFilesCheckBox.Checked)
+				if (!UseDifferentDirectoryCheckBox.Checked)
 				{
 					message += "The converted files will be saved next to the original files." + "\n";
 				}

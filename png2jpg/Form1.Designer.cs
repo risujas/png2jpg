@@ -31,16 +31,16 @@
 			this.components = new System.ComponentModel.Container();
 			this.SourceExtensionLabel = new System.Windows.Forms.Label();
 			this.TargetExtensionLabel = new System.Windows.Forms.Label();
-			this.RootDirectoryTextBox = new System.Windows.Forms.TextBox();
+			this.SourceDirectoryTextBox = new System.Windows.Forms.TextBox();
 			this.ProgressBar = new System.Windows.Forms.ProgressBar();
 			this.ConfirmationButton = new System.Windows.Forms.Button();
-			this.SubdirectoriesCheckbox = new System.Windows.Forms.CheckBox();
+			this.IncludeSubdirectoriesCheckbox = new System.Windows.Forms.CheckBox();
 			this.SourceExtensionComboBox = new System.Windows.Forms.ComboBox();
 			this.TargetExtensionComboBox = new System.Windows.Forms.ComboBox();
 			this.RemoveOriginalFilesCheckBox = new System.Windows.Forms.CheckBox();
 			this.FolderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.SourceDirectoryButton = new System.Windows.Forms.Button();
-			this.CopyFilesCheckBox = new System.Windows.Forms.CheckBox();
+			this.UseDifferentDirectoryCheckBox = new System.Windows.Forms.CheckBox();
 			this.TargetDirectoryTextBox = new System.Windows.Forms.TextBox();
 			this.TargetDirectoryButton = new System.Windows.Forms.Button();
 			this.ExtensionsGroupBox = new System.Windows.Forms.GroupBox();
@@ -72,21 +72,21 @@
 			this.TargetExtensionLabel.TabIndex = 2;
 			this.TargetExtensionLabel.Text = "Target extension";
 			// 
-			// RootDirectoryTextBox
+			// SourceDirectoryTextBox
 			// 
-			this.RootDirectoryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.SourceDirectoryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.RootDirectoryTextBox.Location = new System.Drawing.Point(116, 22);
-			this.RootDirectoryTextBox.Name = "RootDirectoryTextBox";
-			this.RootDirectoryTextBox.Size = new System.Drawing.Size(256, 20);
-			this.RootDirectoryTextBox.TabIndex = 5;
-			this.RootDirectoryTextBox.TextChanged += new System.EventHandler(this.RootDirectoryTextBox_TextChanged);
+			this.SourceDirectoryTextBox.Location = new System.Drawing.Point(116, 22);
+			this.SourceDirectoryTextBox.Name = "SourceDirectoryTextBox";
+			this.SourceDirectoryTextBox.Size = new System.Drawing.Size(256, 20);
+			this.SourceDirectoryTextBox.TabIndex = 5;
+			this.SourceDirectoryTextBox.TextChanged += new System.EventHandler(this.SourceDirectoryTextBox_TextChanged);
 			// 
 			// ProgressBar
 			// 
 			this.ProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.ProgressBar.Location = new System.Drawing.Point(12, 364);
+			this.ProgressBar.Location = new System.Drawing.Point(12, 329);
 			this.ProgressBar.Name = "ProgressBar";
 			this.ProgressBar.Size = new System.Drawing.Size(378, 23);
 			this.ProgressBar.TabIndex = 6;
@@ -96,7 +96,7 @@
 			this.ConfirmationButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.ConfirmationButton.Enabled = false;
-			this.ConfirmationButton.Location = new System.Drawing.Point(12, 335);
+			this.ConfirmationButton.Location = new System.Drawing.Point(12, 300);
 			this.ConfirmationButton.Name = "ConfirmationButton";
 			this.ConfirmationButton.Size = new System.Drawing.Size(378, 23);
 			this.ConfirmationButton.TabIndex = 7;
@@ -104,16 +104,16 @@
 			this.ConfirmationButton.UseVisualStyleBackColor = true;
 			this.ConfirmationButton.Click += new System.EventHandler(this.ConfirmationButton_Click);
 			// 
-			// SubdirectoriesCheckbox
+			// IncludeSubdirectoriesCheckbox
 			// 
-			this.SubdirectoriesCheckbox.AutoSize = true;
-			this.SubdirectoriesCheckbox.Location = new System.Drawing.Point(6, 48);
-			this.SubdirectoriesCheckbox.Name = "SubdirectoriesCheckbox";
-			this.SubdirectoriesCheckbox.Size = new System.Drawing.Size(132, 17);
-			this.SubdirectoriesCheckbox.TabIndex = 8;
-			this.SubdirectoriesCheckbox.Text = " Include subdirectories";
-			this.SubdirectoriesCheckbox.UseVisualStyleBackColor = true;
-			this.SubdirectoriesCheckbox.CheckedChanged += new System.EventHandler(this.SubdirectoriesCheckbox_CheckedChanged);
+			this.IncludeSubdirectoriesCheckbox.AutoSize = true;
+			this.IncludeSubdirectoriesCheckbox.Location = new System.Drawing.Point(6, 48);
+			this.IncludeSubdirectoriesCheckbox.Name = "IncludeSubdirectoriesCheckbox";
+			this.IncludeSubdirectoriesCheckbox.Size = new System.Drawing.Size(132, 17);
+			this.IncludeSubdirectoriesCheckbox.TabIndex = 8;
+			this.IncludeSubdirectoriesCheckbox.Text = " Include subdirectories";
+			this.IncludeSubdirectoriesCheckbox.UseVisualStyleBackColor = true;
+			this.IncludeSubdirectoriesCheckbox.CheckedChanged += new System.EventHandler(this.IncludeSubdirectories_CheckedChanged);
 			// 
 			// SourceExtensionComboBox
 			// 
@@ -170,16 +170,16 @@
 			this.SourceDirectoryButton.UseVisualStyleBackColor = true;
 			this.SourceDirectoryButton.Click += new System.EventHandler(this.SourceDirectoryButton_Click);
 			// 
-			// CopyFilesCheckBox
+			// UseDifferentDirectoryCheckBox
 			// 
-			this.CopyFilesCheckBox.AutoSize = true;
-			this.CopyFilesCheckBox.Location = new System.Drawing.Point(6, 19);
-			this.CopyFilesCheckBox.Name = "CopyFilesCheckBox";
-			this.CopyFilesCheckBox.Size = new System.Drawing.Size(224, 17);
-			this.CopyFilesCheckBox.TabIndex = 13;
-			this.CopyFilesCheckBox.Text = "(Optional) Copy files to a different directory";
-			this.CopyFilesCheckBox.UseVisualStyleBackColor = true;
-			this.CopyFilesCheckBox.CheckedChanged += new System.EventHandler(this.CopyFilesCheckBox_CheckedChanged);
+			this.UseDifferentDirectoryCheckBox.AutoSize = true;
+			this.UseDifferentDirectoryCheckBox.Location = new System.Drawing.Point(6, 19);
+			this.UseDifferentDirectoryCheckBox.Name = "UseDifferentDirectoryCheckBox";
+			this.UseDifferentDirectoryCheckBox.Size = new System.Drawing.Size(224, 17);
+			this.UseDifferentDirectoryCheckBox.TabIndex = 13;
+			this.UseDifferentDirectoryCheckBox.Text = "(Optional) Copy files to a different directory";
+			this.UseDifferentDirectoryCheckBox.UseVisualStyleBackColor = true;
+			this.UseDifferentDirectoryCheckBox.CheckedChanged += new System.EventHandler(this.UseDifferentDirectoryCheckBox_CheckedChanged);
 			// 
 			// TargetDirectoryTextBox
 			// 
@@ -221,8 +221,8 @@
 			this.SourceDirectoryGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.SourceDirectoryGroupBox.Controls.Add(this.SourceDirectoryButton);
-			this.SourceDirectoryGroupBox.Controls.Add(this.RootDirectoryTextBox);
-			this.SourceDirectoryGroupBox.Controls.Add(this.SubdirectoriesCheckbox);
+			this.SourceDirectoryGroupBox.Controls.Add(this.SourceDirectoryTextBox);
+			this.SourceDirectoryGroupBox.Controls.Add(this.IncludeSubdirectoriesCheckbox);
 			this.SourceDirectoryGroupBox.Controls.Add(this.RemoveOriginalFilesCheckBox);
 			this.SourceDirectoryGroupBox.Location = new System.Drawing.Point(12, 121);
 			this.SourceDirectoryGroupBox.Name = "SourceDirectoryGroupBox";
@@ -235,7 +235,7 @@
 			// 
 			this.TargetDirectoryGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.TargetDirectoryGroupBox.Controls.Add(this.CopyFilesCheckBox);
+			this.TargetDirectoryGroupBox.Controls.Add(this.UseDifferentDirectoryCheckBox);
 			this.TargetDirectoryGroupBox.Controls.Add(this.TargetDirectoryButton);
 			this.TargetDirectoryGroupBox.Controls.Add(this.TargetDirectoryTextBox);
 			this.TargetDirectoryGroupBox.Location = new System.Drawing.Point(12, 222);
@@ -256,7 +256,7 @@
 			this.InfoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.InfoLabel.AutoSize = true;
-			this.InfoLabel.Location = new System.Drawing.Point(9, 390);
+			this.InfoLabel.Location = new System.Drawing.Point(9, 355);
 			this.InfoLabel.Name = "InfoLabel";
 			this.InfoLabel.Size = new System.Drawing.Size(0, 13);
 			this.InfoLabel.TabIndex = 19;
@@ -265,7 +265,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(402, 412);
+			this.ClientSize = new System.Drawing.Size(402, 377);
 			this.Controls.Add(this.InfoLabel);
 			this.Controls.Add(this.TargetDirectoryGroupBox);
 			this.Controls.Add(this.SourceDirectoryGroupBox);
@@ -290,16 +290,16 @@
 
 		private System.Windows.Forms.Label SourceExtensionLabel;
 		private System.Windows.Forms.Label TargetExtensionLabel;
-		private System.Windows.Forms.TextBox RootDirectoryTextBox;
+		private System.Windows.Forms.TextBox SourceDirectoryTextBox;
 		private System.Windows.Forms.ProgressBar ProgressBar;
 		private System.Windows.Forms.Button ConfirmationButton;
-		private System.Windows.Forms.CheckBox SubdirectoriesCheckbox;
+		private System.Windows.Forms.CheckBox IncludeSubdirectoriesCheckbox;
 		private System.Windows.Forms.ComboBox SourceExtensionComboBox;
 		private System.Windows.Forms.ComboBox TargetExtensionComboBox;
 		private System.Windows.Forms.CheckBox RemoveOriginalFilesCheckBox;
 		private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog1;
 		private System.Windows.Forms.Button SourceDirectoryButton;
-		private System.Windows.Forms.CheckBox CopyFilesCheckBox;
+		private System.Windows.Forms.CheckBox UseDifferentDirectoryCheckBox;
 		private System.Windows.Forms.TextBox TargetDirectoryTextBox;
 		private System.Windows.Forms.Button TargetDirectoryButton;
 		private System.Windows.Forms.GroupBox ExtensionsGroupBox;
