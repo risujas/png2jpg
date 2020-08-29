@@ -203,6 +203,8 @@ namespace png2jpg
 				}
 			}
 
+			affectedFiles.Sort();
+
 			return affectedFiles;
 		}
 
