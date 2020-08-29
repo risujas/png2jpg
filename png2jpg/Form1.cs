@@ -26,6 +26,8 @@ namespace png2jpg
 		private const string TargetExtensionOption = "target_extension";
 		private const string IncludeSubdirectoriesOption = "include_subdirectories";
 		private const string RemoveOriginalsOption = "remove_originals";
+		private const string CopyFilesOption = "copy_files";
+		private const string TargetDirectoryOption = "target_directory";
 
 		// methods /////////////////////////////////////////////////////////////////////////////////////
 
@@ -68,6 +70,16 @@ namespace png2jpg
 					{
 						RemoveOriginalFilesCheckBox.Checked = bool.Parse(afterDelimiter);
 					}
+
+					if (l.StartsWith(CopyFilesOption))
+					{
+						CopyFilesCheckBox.Checked = bool.Parse(afterDelimiter);
+					}
+
+					if (l.StartsWith(TargetDirectoryOption))
+					{
+						TargetDirectoryTextBox.Text = afterDelimiter;
+					}
 				}
 
 				return true;
@@ -89,6 +101,8 @@ namespace png2jpg
 			lines.Add(TargetExtensionOption + OptionsDelimiter + TargetExtensionComboBox.SelectedItem);
 			lines.Add(IncludeSubdirectoriesOption + OptionsDelimiter + SubdirectoriesCheckbox.Checked);
 			lines.Add(RemoveOriginalsOption + OptionsDelimiter + RemoveOriginalFilesCheckBox.Checked);
+			lines.Add(CopyFilesOption + OptionsDelimiter + CopyFilesCheckBox.Checked);
+			lines.Add(TargetDirectoryOption + OptionsDelimiter + TargetDirectoryTextBox.Text);
 
 			File.WriteAllLines(OldOptionsFile, lines);
 
