@@ -33,7 +33,7 @@
 			this.RootDirectoryLabel = new System.Windows.Forms.Label();
 			this.RootDirectoryTextBox = new System.Windows.Forms.TextBox();
 			this.ProgressBar = new System.Windows.Forms.ProgressBar();
-			this.StartConversionButton = new System.Windows.Forms.Button();
+			this.ConfirmConversionButton = new System.Windows.Forms.Button();
 			this.SubdirectoriesCheckbox = new System.Windows.Forms.CheckBox();
 			this.SourceExtensionComboBox = new System.Windows.Forms.ComboBox();
 			this.TargetExtensionComboBox = new System.Windows.Forms.ComboBox();
@@ -87,17 +87,18 @@
 			this.ProgressBar.Size = new System.Drawing.Size(206, 23);
 			this.ProgressBar.TabIndex = 6;
 			// 
-			// StartConversionButton
+			// ConfirmConversionButton
 			// 
-			this.StartConversionButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			this.ConfirmConversionButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.StartConversionButton.Enabled = false;
-			this.StartConversionButton.Location = new System.Drawing.Point(12, 223);
-			this.StartConversionButton.Name = "StartConversionButton";
-			this.StartConversionButton.Size = new System.Drawing.Size(206, 23);
-			this.StartConversionButton.TabIndex = 7;
-			this.StartConversionButton.Text = "Confirm conversion";
-			this.StartConversionButton.UseVisualStyleBackColor = true;
+			this.ConfirmConversionButton.Enabled = false;
+			this.ConfirmConversionButton.Location = new System.Drawing.Point(12, 223);
+			this.ConfirmConversionButton.Name = "ConfirmConversionButton";
+			this.ConfirmConversionButton.Size = new System.Drawing.Size(206, 23);
+			this.ConfirmConversionButton.TabIndex = 7;
+			this.ConfirmConversionButton.Text = "Confirm conversion";
+			this.ConfirmConversionButton.UseVisualStyleBackColor = true;
+			this.ConfirmConversionButton.Click += new System.EventHandler(this.StartConversionButton_Click);
 			// 
 			// SubdirectoriesCheckbox
 			// 
@@ -123,6 +124,7 @@
 			this.SourceExtensionComboBox.Name = "SourceExtensionComboBox";
 			this.SourceExtensionComboBox.Size = new System.Drawing.Size(206, 21);
 			this.SourceExtensionComboBox.TabIndex = 9;
+			this.SourceExtensionComboBox.SelectedIndexChanged += new System.EventHandler(this.SourceExtensionComboBox_SelectedIndexChanged);
 			// 
 			// TargetExtensionComboBox
 			// 
@@ -138,6 +140,7 @@
 			this.TargetExtensionComboBox.Name = "TargetExtensionComboBox";
 			this.TargetExtensionComboBox.Size = new System.Drawing.Size(206, 21);
 			this.TargetExtensionComboBox.TabIndex = 10;
+			this.TargetExtensionComboBox.SelectedIndexChanged += new System.EventHandler(this.TargetExtensionComboBox_SelectedIndexChanged);
 			// 
 			// RemoveOriginalFilesCheckBox
 			// 
@@ -160,7 +163,7 @@
 			this.Controls.Add(this.TargetExtensionComboBox);
 			this.Controls.Add(this.SourceExtensionComboBox);
 			this.Controls.Add(this.SubdirectoriesCheckbox);
-			this.Controls.Add(this.StartConversionButton);
+			this.Controls.Add(this.ConfirmConversionButton);
 			this.Controls.Add(this.ProgressBar);
 			this.Controls.Add(this.RootDirectoryTextBox);
 			this.Controls.Add(this.RootDirectoryLabel);
@@ -181,7 +184,7 @@
 		private System.Windows.Forms.Label RootDirectoryLabel;
 		private System.Windows.Forms.TextBox RootDirectoryTextBox;
 		private System.Windows.Forms.ProgressBar ProgressBar;
-		private System.Windows.Forms.Button StartConversionButton;
+		private System.Windows.Forms.Button ConfirmConversionButton;
 		private System.Windows.Forms.CheckBox SubdirectoriesCheckbox;
 		private System.Windows.Forms.ComboBox SourceExtensionComboBox;
 		private System.Windows.Forms.ComboBox TargetExtensionComboBox;
