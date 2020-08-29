@@ -170,6 +170,11 @@ namespace png2jpg
 				}
 			}
 
+			if (good)
+			{
+				SetInfoLabel(FindAffectedFiles().Count.ToString() + " matching files found.");
+			}
+
 			ConfirmationButton.Enabled = good;
 
 			return good;
