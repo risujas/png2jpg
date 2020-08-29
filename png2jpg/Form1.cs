@@ -13,13 +13,13 @@ namespace png2jpg
 		{
 			InitializeComponent();
 
-			LoadOptions();
-			SetDestinationGroupBoxState();
-			ValidateOptions();
-
 			InvalidColor = Color.FromArgb(255, 230, 230);
 			DefaultTextBoxColor = RootDirectoryTextBox.BackColor;
 			DefaultGroupBoxColor = ExtensionsGroupBox.BackColor;
+
+			LoadOptions();
+			SetDestinationGroupBoxState();
+			ValidateOptions();
 		}
 
 		// vars /////////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +122,8 @@ namespace png2jpg
 
 		bool ValidateOptions()
 		{
+			WriteOptions();
+
 			bool good = true;
 
 			ExtensionsGroupBox.BackColor = DefaultGroupBoxColor;
@@ -147,7 +149,6 @@ namespace png2jpg
 				good = false;
 				RootDirectoryTextBox.BackColor = InvalidColor;
 			}
-
 			if (CopyFilesCheckBox.Checked)
 			{
 				TargetDirectoryTextBox.BackColor = DefaultTextBoxColor;
@@ -193,6 +194,11 @@ namespace png2jpg
 		{
 			TargetDirectoryButton.Enabled = CopyFilesCheckBox.Checked;
 			TargetDirectoryTextBox.Enabled = CopyFilesCheckBox.Checked;
+
+			if (!TargetDirectoryTextBox.Enabled)
+			{
+				TargetDirectoryTextBox.BackColor = DefaultTextBoxColor;
+			}
 		}
 
 		// form events /////////////////////////////////////////////////////////////////////////////////////
