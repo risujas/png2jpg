@@ -124,7 +124,10 @@
 			this.SourceExtensionComboBox.Items.AddRange(new object[] {
             ".jpg .jpeg",
             ".png",
-            ".bmp"});
+            ".bmp",
+            ".gif",
+            ".webp",
+            ".tiff"});
 			this.SourceExtensionComboBox.Location = new System.Drawing.Point(6, 32);
 			this.SourceExtensionComboBox.Name = "SourceExtensionComboBox";
 			this.SourceExtensionComboBox.Size = new System.Drawing.Size(366, 21);
@@ -140,7 +143,10 @@
 			this.TargetExtensionComboBox.Items.AddRange(new object[] {
             ".jpg .jpeg",
             ".png",
-            ".bmp"});
+            ".bmp",
+            ".gif",
+            ".webp",
+            ".tiff"});
 			this.TargetExtensionComboBox.Location = new System.Drawing.Point(6, 73);
 			this.TargetExtensionComboBox.Name = "TargetExtensionComboBox";
 			this.TargetExtensionComboBox.Size = new System.Drawing.Size(366, 21);
