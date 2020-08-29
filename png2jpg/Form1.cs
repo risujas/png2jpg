@@ -36,8 +36,6 @@ namespace png2jpg
 		{
 			if (File.Exists(OldOptionsFile))
 			{
-				//logger.Write("Loading options from file");
-
 				string[] lines = File.ReadAllLines(OldOptionsFile);
 
 				foreach (var l in lines)
@@ -93,8 +91,6 @@ namespace png2jpg
 
 		bool WriteOptions()
 		{
-			//logger.Write("Writing options to file");
-
 			if (File.Exists(OldOptionsFile))
 			{
 				File.Delete(OldOptionsFile);
@@ -147,16 +143,6 @@ namespace png2jpg
 			}
 
 			ConfirmConversionButton.Enabled = good;
-			/*
-			if (good)
-			{
-				logger.Write("Valid options, confirmation button enabled");
-			}
-			else
-			{
-				logger.Write("Invalid options, confirmation button disabled");
-			}
-			*/
 
 			return good;
 		}
