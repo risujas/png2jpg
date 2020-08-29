@@ -128,6 +128,25 @@ namespace png2jpg
 			return true;
 		}
 
+		List<string> FindAffectedFiles()
+		{
+			List<string> affectedFiles = new List<string>();
+
+			SearchOption so = SearchOption.TopDirectoryOnly;
+			if (SubdirectoriesCheckbox.Checked)
+			{
+				so = SearchOption.AllDirectories;
+			}
+
+			string[] extensions = SourceExtensionComboBox.SelectedItem.ToString().Split(' ');
+			foreach (var e in extensions)
+			{
+				affectedFiles.AddRange(Directory.GetFiles(RootDirectoryTextBox.Text, "*" + e, so).ToList());
+			}
+
+			return affectedFiles;
+		}
+
 		// form events /////////////////////////////////////////////////////////////////////////////////////
 
 		private void SourceExtensionComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -168,7 +187,7 @@ namespace png2jpg
 
 		private void StartConversionButton_Click(object sender, EventArgs e)
 		{
-			// TODO
+			MessageBox.Show(FindAffectedFiles().Count.ToString());
 		}
 	}
 }
